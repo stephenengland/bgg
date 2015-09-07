@@ -1,8 +1,6 @@
-var QueueProcessor = require('./lib/queueProcessor');
+var QueueProcessor = require('./lib/queueProcessor'),
+    bggCollectionRequest = require('./lib/bggCollectionRequest');
 
 var processor = QueueProcessor("processCollections", function (message, callback) {
-  console.log(message);
-  setTimeout(function () {
-    callback();
-  }, 5000);
+  bggCollectionRequest.makeRequest(message.username, callback);
 });
