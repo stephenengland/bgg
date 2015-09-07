@@ -1,4 +1,5 @@
 var nconf = require('nconf'),
+    path = require('path'),
     amqp = require('amqp'),
     exchange,
     exchangeOptions,
@@ -6,7 +7,7 @@ var nconf = require('nconf'),
 
 nconf.argv().env();
 nconf.file({
-    file: './config.json'
+    file: path.join(__dirname, 'config.json')
 });
 
 exchange = nconf.get("rabbit:exchange:name");
