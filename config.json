@@ -1,0 +1,30 @@
+{
+  "logLevel": 4,
+  "rabbit": {
+    "connection": {
+      "host": "127.0.0.1",
+      "login": "guest",
+      "password": "guest",
+      "vhost": "/"
+    },
+    "exchange": {
+      "name": "ProcessCollections",
+      "options": {
+        "durable": false,
+        "autoDelete": false,
+        "exclusive": false,
+        "passive": false,
+        "type": "direct"
+      }
+    },
+    "queue": {
+      "name": "Node-ProcessCollections",
+      "options": {
+        "durable": false,
+        "autoDelete": false,
+        "exclusive": false,
+        "prefetchCount": 1
+      }
+    }
+  }
+}

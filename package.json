@@ -1,0 +1,23 @@
+{
+  "name": "bgg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thealah/bgg.git"
+  },
+  "author": "Stephen England <stephenengland1986@gmail.com> (https://github.com/thealah)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/thealah/bgg/issues"
+  },
+  "homepage": "https://github.com/thealah/bgg#readme",
+  "dependencies": {
+    "amqp": "^0.2.4",
+    "nconf": "^0.7.2"
+  }
+}
