@@ -6,8 +6,10 @@ Board Game Geek Collections app
 * `npm install`
 
 ## Listen/Test Process Collection Messages
-`grunt collectionProcessor`
-`(In another Command Line) grunt kickoffCollection`
+```
+grunt collectionProcessor
+(In another Command Line) grunt kickoffCollection
+```
 
 This will kick off a test message and process it into RabbitMQ.
 
