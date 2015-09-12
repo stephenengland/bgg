@@ -25,13 +25,13 @@ var newCollection = function (req, res, username) {
 
   col.save(function (err) {
     if (err) {
-      console.log("Error saving collection in Mongoose! Username:" + username);
+      console.log("controllers/collection.js | Error saving collection in Mongoose! Username:" + username);
       res.status(503).end();
       return;
     }
     queueRequester.processCollections(username, function (errorOccurred) {
       if (errorOccurred) {
-        console.log("Error sending message for processing collection:" + username);
+        console.log("controllers/collection.js | Error sending message for processing collection:" + username);
         res.status(503);
       }
       else {
@@ -51,7 +51,7 @@ module.exports = function (app) {
         "username": req.params.username
       }, function (err, collection) {
         if (err) {
-          console.log("Error during collection find in collection controller!");
+          console.log("controllers/collection.js | Error during collection find!");
           res.status(503).send({"message": "A server error occurred!"}).end();
           return;
         }
@@ -66,7 +66,7 @@ module.exports = function (app) {
           if (lastProcessedDifference >= collectionStaleDataTimeout) {
             queueRequester.processCollections(username, function (errorOccurred) {
               if (errorOccurred) {
-                console.log("Error sending message for processing collection:" + username);
+                console.log("controllers/collection.js | Error sending message for processing collection:" + username);
                 res.status(503);
               }
               else {
@@ -79,7 +79,7 @@ module.exports = function (app) {
           else if (lastProcessedDifference > collectionMissingDataRetry && !collection.data) {
             queueRequester.processCollections(username, function (errorOccurred) {
               if (errorOccurred) {
-                console.log("Error sending message for processing collection:" + username);
+                console.log("controllers/collection.js | Error sending message for processing collection:" + username);
                 res.status(503);
               }
               else {

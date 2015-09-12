@@ -18,8 +18,10 @@ mongoose.connect(nconf.get("mongoConnection"));
 
 mongoose.connection.on('error', console.error.bind(console, 'Mongoose Connection Error:'));
 mongoose.connection.once('open', function (callback) {
-  console.log('Mongoose Connection open.');
-  server.listen(nconf.get('website:port'));
+  console.log('server.js | Mongoose Connection open.');
+  server.listen(nconf.get('website:port'), function () {
+    console.log('server.js | Listening on port ' + nconf.get('website:port'));
+  });
 });
 
 app.get('/', function (req, res) {

@@ -29,6 +29,9 @@ module.exports = function(grunt) {
       },
       kickoffCollection: {
         src: ['dev/kickoff-collection.js']
+      },
+      website: {
+        src: ['server.js']
       }
     },
     availabletasks: {
@@ -38,6 +41,15 @@ module.exports = function(grunt) {
           tasks: ['availabletasks']
         }
       }
+    },
+    parallel: {
+      server: {
+        options: {
+          grunt: true,
+          stream: true
+        },
+        tasks: ['website', 'collectionProcessor']
+      }
     }
   });
 
@@ -45,8 +57,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-available-tasks'); //For some reason, load-grunt-tasks doesn't like this NpmTask.
 
 
-  //Set the default task - this will be what happens when you run the command  "grunt" in your directory.
-  grunt.registerTask('default', ['jshint:all', 'jsbeautifier']);
+  grunt.registerTask('default', ['jshint:all', 'jsbeautifier', 'server']);
   grunt.registerTask('kickoffCollection', ['execute:kickoffCollection']);
   grunt.registerTask('collectionProcessor', ['execute:collectionProcessor']);
+  grunt.registerTask('website', ['execute:website']);
+  grunt.registerTask('server', ['parallel:server']);
 };
