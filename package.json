@@ -22,5 +22,13 @@
     "nconf": "^0.7.2",
     "request": "^2.61.0",
     "xml2js": "^0.4.12"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-available-tasks": "^0.6.0",
+    "grunt-contrib-jshint": "^0.11.3",
+    "grunt-execute": "^0.2.2",
+    "grunt-jsbeautifier": "^0.2.10",
+    "load-grunt-tasks": "^3.2.0"
   }
 }
