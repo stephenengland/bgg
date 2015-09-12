@@ -6,8 +6,8 @@ Board Game Geek Collections app
 * `npm install`
 
 ## Listen/Test Process Collection Messages
-* `grunt run:server`
-* (In another Command Line) `node cli-process-collection.js`
+* `grunt collectionProcessor`
+* (In another Command Line) `grunt kickoffCollection`
 
 What are "Collection Messages"?
 
