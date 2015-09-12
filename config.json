@@ -16,6 +16,7 @@
         "autoDelete": false,
         "exclusive": false,
         "passive": false,
+        "confirm": true,
         "type": "direct"
       }
     },
@@ -32,5 +33,8 @@
   },
   "bgg": {
     "collectionRequestDelay": 2000
+  },
+  "website": {
+    "port": 7080
   }
 }

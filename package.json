@@ -18,6 +18,8 @@
   "homepage": "https://github.com/thealah/bgg#readme",
   "dependencies": {
     "amqp": "^0.2.4",
+    "compression": "^1.5.2",
+    "express": "^4.13.3",
     "mongoose": "^4.1.5",
     "nconf": "^0.7.2",
     "request": "^2.61.0",
