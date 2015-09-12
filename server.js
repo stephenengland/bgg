@@ -31,3 +31,8 @@ app.get('/', function (req, res) {
 collectionController(app);
 
 app.use(express.static(path.join(__dirname, 'www'), {}));
+
+//Fallback - this is for HTML 5 push state routing, used by the client side app (angularjs)
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'www', 'index.html'));
+});
