@@ -27,6 +27,7 @@
         "exclusive": false,
         "prefetchCount": 1
       }
-    }
+    },
+    "messageThreads": 4
   }
 }
