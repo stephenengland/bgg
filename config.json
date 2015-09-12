@@ -1,7 +1,6 @@
 {
   "logLevel": 4,
   "mongoConnection": "mongodb://localhost/bgg",
-  "collectionExpirationDays": 30,
   "rabbit": {
     "connection": {
       "host": "127.0.0.1",
@@ -32,7 +31,9 @@
     "messageThreads": 4
   },
   "bgg": {
-    "collectionRequestDelay": 2000
+    "collectionRequestDelay": 2000,
+    "collectionStaleDataTimeout": 360000,
+    "missingDataRetry": 6000
   },
   "website": {
     "port": 7080

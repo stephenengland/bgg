@@ -4,7 +4,8 @@ var express = require('express'),
     compression = require('compression'),
     nconf = require('nconf'),
     path = require('path'),
-    queueRequester = require(path.join(__dirname, 'lib', 'queueRequester'));
+    collectionController = require(path.join(__dirname, 'controllers', 'collection')),
+    mongoose = require('mongoose');
 
 nconf.argv().env();
 nconf.file({
@@ -13,28 +14,18 @@ nconf.file({
 
 app.use(compression());
 
-server.listen(nconf.get('website:port'));
+mongoose.connect(nconf.get("mongoConnection"));
+
+mongoose.connection.on('error', console.error.bind(console, 'Mongoose Connection Error:'));
+mongoose.connection.once('open', function (callback) {
+  console.log('Mongoose Connection open.');
+  server.listen(nconf.get('website:port'));
+});
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'www', 'index.html'));
 });
 
-app.get('/collection/:username', function (req, res) {
-  if (req.params.username && req.params.username.length > 2) {
-    queueRequester.processCollections(req.params.username, function (errorOccurred) {
-      if (errorOccurred) {
-        console.log("Error sending message for processing collection:" + req.params.username);
-        res.status(200);
-      }
-      else {
-        res.status(503);
-      }
-      res.send({ "username": req.params.username }).end();
-    });
-  }
-  else {
-    res.status(500).send({"message": "Invalid response!"}).end();
-  }
-});
+collectionController(app);
 
 app.use(express.static(path.join(__dirname, 'www'), {}));
