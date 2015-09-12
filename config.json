@@ -29,5 +29,8 @@
       }
     },
     "messageThreads": 4
+  },
+  "bgg": {
+    "collectionRequestDelay": 2000
   }
 }
