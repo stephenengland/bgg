@@ -1,0 +1,81 @@
+- name: add nodebgg group
+  group:
+    name: nodebgg
+    state: present
+
+- name: add nodebgg user
+  user:
+    name: nodebgg
+    group: nodebgg
+    shell: /bin/bash
+    home: /home/nodebgg
+    password: nodebgg
+
+- name: "Install forever (to run Node.js app)."
+  npm: name=forever global=yes state=present
+
+- name: "Check list of Node.js apps running."
+  command: forever list
+  register: forever_list
+  changed_when: false
+  become: yes
+  become_user: nodebgg
+
+- name: Check {{ playbook_dir }}/../deploy.tar.gz
+  local_action: stat path={{ playbook_dir }}/../deploy.tar.gz
+  register: result
+  sudo: false
+
+- fail: msg="Deploy.tar.gz must be present"
+  when: result.stat.exists == False
+
+- name: "Stop BGG Website"
+  command: forever stopall
+  when: "{{ force }} and forever_list.stdout.find('/etc/bgg/server.js') != -1"
+
+- name: "Stop BGG Message Queue"
+  command: forever stopall
+  when: "{{ force }} and forever_list.stdout.find('/etc/bgg/collectionProcessor.js') != -1"
+
+- name: Check BGG Code - src
+  stat: path=/etc/bgg/src
+  register: src_stat
+
+- name: Creates BGG Code directory
+  file: path=/etc/bgg state=directory
+  when: "src_stat.stat.isdir is not defined or {{ force }}"
+
+- name: Unpack Deploy
+  unarchive: src={{ playbook_dir }}/../deploy.tar.gz dest=/etc/bgg/ copy=yes
+  when: "src_stat.stat.isdir is not defined or {{ force }}"
+
+- name: make nodebgg own /etc/bgg
+  file: 
+    path: /etc/bgg
+    recurse: yes
+    owner: nodebgg
+    group: nodebgg
+
+- name: "Start BGG Website"
+  command: forever start /etc/bgg/server.js
+  become: yes
+  become_user: nodebgg
+  when: forever_list.stdout.find('/etc/bgg/server.js') == -1
+
+- name: "Restart BGG Website"
+  command: forever restart /etc/bgg/server.js
+  become: yes
+  become_user: nodebgg
+  when: forever_list.stdout.find('/etc/bgg/server.js') != -1
+
+- name: "Start BGG Message Queue"
+  command: forever start /etc/bgg/collectionProcessor.js
+  become: yes
+  become_user: nodebgg
+  when: forever_list.stdout.find('/etc/bgg/collectionProcessor.js') == -1
+
+- name: "Restart BGG Message Queue"
+  command: forever restart /etc/bgg/collectionProcessor.js
+  become: yes
+  become_user: nodebgg
+  when: forever_list.stdout.find('/etc/bgg/collectionProcessor.js') != -1
