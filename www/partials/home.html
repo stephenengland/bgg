@@ -26,23 +26,25 @@
 </div>
 
 <div class="container-fluid">
-  <div class="row">
-    <div ng-repeat="user in users" class="pull-right">
-      <div class="pull-right">
-        <button class="btn btn-danger" ng-click="removeUser(user.username)"><i class="glyphicon glyphicon-remove"></i> <span ng-bind="user.username"></span></button>
-        &nbsp;
-      </div>
+  <div class="row" style="margin-bottom:10px;">
+    <div class="col-md-5">
+      <form class="form-inline">
+        <div class="form-group">
+          <label for="add-username">Add Username</label>
+          <input id="add-username" type="text" class="form-control" ng-model="addUsername"></input>
+        </div>
+        <button class="btn btn-primary" ng-click="addUser()" ng-disabled="addUsername.length <= 2"><i class="glyphicon glyphicon-plus"></i> Add</button>
+      </form>
     </div>
 
-    <form class="form-inline">
-      <div class="form-group">
-        <label for="add-username">Add Username</label>
-        <input id="add-username" type="text" class="form-control" ng-model="addUsername"></input>
+    <div class="col-md-7">
+      <div ng-repeat="user in users" class="pull-right">
+        <div class="pull-right">
+          <button class="btn btn-danger" ng-click="removeUser(user.username)"><i class="glyphicon glyphicon-remove"></i> <span ng-bind="user.username"></span></button>
+          &nbsp;
+        </div>
       </div>
-      <button class="btn btn-primary" ng-click="addUser()"><i class="glyphicon glyphicon-plus"></i> Add</button>
-    </form>
-
-    <br />
+    </div>
   </div>
 
   <div ng-if="showInGrid" class="row">

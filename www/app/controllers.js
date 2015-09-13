@@ -20,7 +20,7 @@ bggCollectionsControllers.controller('HomeCtrl', ['$scope', 'Collection',
       var chainedLodashCollection = _.chain($scope.collection);
       if ($scope.searchFilter.length > 2) {
         chainedLodashCollection = chainedLodashCollection.filter(function (game) {
-          return game.name.indexOf($scope.searchFilter) > -1;
+          return game.name.toLowerCase().indexOf($scope.searchFilter.toLowerCase()) > -1;
         });
       }
       chainedLodashCollection = chainedLodashCollection.sortBy('name');
