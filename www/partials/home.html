@@ -1,28 +1,35 @@
 <div class="navbar navbar-default">
-  <ul class="nav navbar-nav">
-    <li ng-class="{active:showInGrid}">
-      <a href="#" ng-click="showGrid()" ng-disabled="showInGrid">
-        &nbsp;
-        <i class="glyphicon glyphicon-th-large"></i>
-        &nbsp;
-      </a>
-    </li>
-    <li ng-class="{active:showInTable}">
-      <a href="#" ng-click="showTable()" ng-disabled="showInTable">
-        &nbsp;
-        <i class="glyphicon glyphicon-th-list"></i>
-        &nbsp;
-      </a>
-    </li>
-  </ul>
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li ng-class="{active:showInGrid}">
+        <a href="#" ng-click="showGrid()" ng-disabled="showInGrid">
+          &nbsp;
+          <i class="glyphicon glyphicon-th-large"></i>
+          &nbsp;
+        </a>
+      </li>
+      <li ng-class="{active:showInTable}">
+        <a href="#" ng-click="showTable()" ng-disabled="showInTable">
+          &nbsp;
+          <i class="glyphicon glyphicon-th-list"></i>
+          &nbsp;
+        </a>
+      </li>
+    </ul>
+    <form class="navbar-form navbar-right">
+      <div class="form-group">
+        <input type="text" ng-model="searchFilter" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-info" ng-click="search()"><i class="glyphicon glyphicon-search"></i> Search</button>
+    </form>
+  </div>
 </div>
 
 <div class="container-fluid">
   <div class="row">
     <div ng-repeat="user in users" class="pull-right">
       <div class="pull-right">
-        <span ng-bind="user.username"></span>
-        <button class="btn btn-danger" ng-click="removeUser(user.username)">Remove</button>
+        <button class="btn btn-danger" ng-click="removeUser(user.username)"><i class="glyphicon glyphicon-remove"></i> <span ng-bind="user.username"></span></button>
         &nbsp;
       </div>
     </div>
@@ -32,14 +39,14 @@
         <label for="add-username">Add Username</label>
         <input id="add-username" type="text" class="form-control" ng-model="addUsername"></input>
       </div>
-      <button class="btn btn-primary" ng-click="addUser()">Add</button>
+      <button class="btn btn-primary" ng-click="addUser()"><i class="glyphicon glyphicon-plus"></i> Add</button>
     </form>
 
     <br />
   </div>
 
   <div ng-if="showInGrid" class="row">
-    <div ng-repeat="bgame in collection">
+    <div ng-repeat="bgame in filteredCollection">
       <div class="col-md-2 col-sm-4 col-xs-6 text-center">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -62,7 +69,7 @@
     </div>
   </div>
   <div ng-if="showInTable" class="row=">
-    <table>
+    <table class="table table-hover table-responsive">
       <thead>
         <tr>
           <th>Board Game</th>
@@ -70,7 +77,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="bgame in collection">
+        <tr ng-repeat="bgame in filteredCollection">
           <td>
             <span ng-bind="bgame.name"></span>
           </td>

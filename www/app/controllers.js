@@ -11,8 +11,22 @@ bggCollectionsControllers.controller('HomeCtrl', ['$scope', 'Collection',
     $scope.showInGrid = true;
     $scope.showInTable = false;
     $scope.collection = [];
+    $scope.filteredCollection = [];
     $scope.users = {};
     $scope.addUsername = '';
+    $scope.searchFilter = '';
+
+    $scope.refreshFilters = function () {
+      var chainedLodashCollection = _.chain($scope.collection);
+      if ($scope.searchFilter.length > 2) {
+        chainedLodashCollection = chainedLodashCollection.filter(function (game) {
+          return game.name.indexOf($scope.searchFilter) > -1;
+        });
+      }
+      chainedLodashCollection = chainedLodashCollection.sortBy('name');
+
+      $scope.filteredCollection = chainedLodashCollection.value();
+    };
 
     $scope.refreshCollection = function () {
       var col = {};
@@ -31,6 +45,7 @@ bggCollectionsControllers.controller('HomeCtrl', ['$scope', 'Collection',
       }
 
       $scope.collection = col;
+      $scope.refreshFilters();
     };
 
     $scope.requestCollection = function (username) {
@@ -82,4 +97,8 @@ bggCollectionsControllers.controller('HomeCtrl', ['$scope', 'Collection',
       delete $scope.users[username];
       $scope.refreshCollection();
     };
+
+    $scope.search = function () {
+      $scope.refreshFilters();
+    }
   }]);
