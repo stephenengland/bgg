@@ -44,12 +44,17 @@ bggCollectionsControllers.controller('HomeCtrl', ['$scope', 'Collection',
         }
 
         if (data.processing) {
-          setTimeout(function () {
-            $scope.requestCollection(username);
-          }, 5000);
+          if (!$scope.users[username].interval) {
+            $scope.users[username].interval = setInterval(function () {
+              $scope.requestCollection(username);
+            }, 5000);
+          }
         }
         else {
           $scope.users[username].loadingCollection = false;
+          if ($scope.users[username].interval) {
+            clearInterval($scope.users[username].interval);
+          }
         }
       });
     };
@@ -64,7 +69,17 @@ bggCollectionsControllers.controller('HomeCtrl', ['$scope', 'Collection',
     };
 
     $scope.addUser = function () {
-      $scope.users[$scope.addUsername] = { "username": $scope.addUsername };
-      $scope.requestCollection($scope.addUsername); //TODO: Add error handling logic
+      if ($scope.addUsername && $scope.addUsername.length > 2) {
+        $scope.users[$scope.addUsername] = { "username": $scope.addUsername };
+        $scope.requestCollection($scope.addUsername); //TODO: Add error handling logic 
+      }
+    };
+
+    $scope.removeUser = function (username) {
+      if ($scope.users[username].interval) {
+        clearInterval($scope.users[username].interval);
+      }
+      delete $scope.users[username];
+      $scope.refreshCollection();
     };
   }]);

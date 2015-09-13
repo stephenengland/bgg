@@ -18,13 +18,25 @@
 </div>
 
 <div class="container-fluid">
-  <form>
-    <div class="form-group">
-      <label>Add Username</label>
-      <input type="text" ng-model="addUsername"></input>
+  <div class="row">
+    <div ng-repeat="user in users" class="pull-right">
+      <div class="pull-right">
+        <span ng-bind="user.username"></span>
+        <button class="btn btn-danger" ng-click="removeUser(user.username)">Remove</button>
+        &nbsp;
+      </div>
     </div>
-    <button class="btn btn-primary" ng-click="addUser()">Add</button>
-  </form>
+
+    <form class="form-inline">
+      <div class="form-group">
+        <label for="add-username">Add Username</label>
+        <input id="add-username" type="text" class="form-control" ng-model="addUsername"></input>
+      </div>
+      <button class="btn btn-primary" ng-click="addUser()">Add</button>
+    </form>
+
+    <br />
+  </div>
 
   <div ng-if="showInGrid" class="row">
     <div ng-repeat="bgame in collection">
