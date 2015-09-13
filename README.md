@@ -3,6 +3,7 @@ Board Game Geek Collections app
 
 ## Setup
 * Install RabbitMQ
+* Install MongoDB
 * `npm install`
 
 ## Start the Server
