@@ -18,11 +18,21 @@
 </div>
 
 <div class="container-fluid">
+  <form>
+    <div class="form-group">
+      <label>Add Username</label>
+      <input type="text" ng-model="addUsername"></input>
+    </div>
+    <button class="btn btn-primary" ng-click="addUser()">Add</button>
+  </form>
+
   <div ng-if="showInGrid" class="row">
     <div ng-repeat="bgame in collection">
       <div class="col-md-2 col-sm-4 col-xs-6 text-center">
         <div class="panel panel-default">
-          <div class="panel-heading"><h4 ng-bind="bgame.name"></h4></div>
+          <div class="panel-heading">
+            <h4><span ng-bind="bgame.name"></span></h4>
+          </div>
           <div class="panel-body">
             <img ng-src="{{bgame.thumbnail}}" class="img-rounded img-responsive center-block" />
           </div>
@@ -44,12 +54,16 @@
       <thead>
         <tr>
           <th>Board Game</th>
+          <th>Owners</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="bgame in collection">
           <td>
             <span ng-bind="bgame.name"></span>
+          </td>
+          <td ng-repeat="owner in bgame.owners">
+            <span ng-bind="owner"></span>
           </td>
         </tr>
       </tbody>
