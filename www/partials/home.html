@@ -1,13 +1,47 @@
 <div class="container-fluid">
-  <div class="row">
+  <div class="navbar navbar-default">
+    <ul class="nav navbar-nav">
+      <li ng-class="{active:showInGrid}">
+        <a href="#" ng-click="showGrid()" ng-disabled="showInGrid">
+          <i class="glyphicon glyphicon-th-large"></i>
+        </a>
+      </li>
+      <li ng-class="{active:showInTable}">
+        <a href="#" ng-click="showTable()" ng-disabled="showInTable">
+          <i class="glyphicon glyphicon-th-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div ng-if="showInGrid" class="row">
     <div ng-repeat="bgame in collection">
-      <div class="col-md-4 text-center">
-        <h4 ng-bind="bgame.name"></h4>
-        <img ng-src="{{bgame.thumbnail}}" class="img-rounded" />
+      <div class="col-md-2 text-center">
+        <div class="panel panel-default">
+          <div class="panel-heading"><h4 ng-bind="bgame.name"></h4></div>
+          <div class="panel-body">
+            <img ng-src="{{bgame.thumbnail}}" class="img-rounded" />
+          </div>
+        </div>
       </div>
-      <div ng-if="$index % 3 === 2">
-        <div class="clearfix"></div>
+      <div ng-if="$index % 6 === 5">
+        <div class="clearfix hidden-xs hidden-sm"></div>
       </div>
     </div>
+  </div>
+  <div ng-if="showInTable" class="row=">
+    <table>
+      <thead>
+        <tr>
+          <th>Board Game</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="bgame in collection">
+          <td>
+            <span ng-bind="bgame.name"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
