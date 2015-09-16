@@ -3,7 +3,7 @@ vm_hostname = "BGGC"
 Vagrant.configure(2) do |config|
 
   config.vm.provider :virtualbox do |vb, override|
-    vb.name = "local"
+    vb.name = "local-bggc"
     vb.customize ["modifyvm", :id, "--memory", "1024"]
     override.vm.box = 'ubuntu/trusty64'
     override.vm.network "forwarded_port", guest: 80, host: 7090

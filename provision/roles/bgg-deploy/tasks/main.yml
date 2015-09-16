@@ -49,6 +49,9 @@
   unarchive: src={{ playbook_dir }}/../deploy.tar.gz dest=/etc/bgg/ copy=yes
   when: "src_stat.stat.isdir is not defined or {{ force }}"
 
+- name: Copy the configuration file
+  template: src=config.json.j2 dest=/etc/bgg/config.json
+
 - name: make nodebgg own /etc/bgg
   file: 
     path: /etc/bgg

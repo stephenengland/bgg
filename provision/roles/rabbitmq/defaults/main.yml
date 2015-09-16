@@ -1,0 +1,9 @@
+---
+update_apt_cache: true
+
+rabbitmq_admin_user: admin
+rabbitmq_admin_password: admin
+
+rabbitmq_application_vhost: bgg
+rabbitmq_application_user: bgg
+rabbitmq_application_password: bgg

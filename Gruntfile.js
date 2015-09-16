@@ -1,3 +1,5 @@
+var path = require('path');
+
 var files = {
   js: {
     lib: 'lib/**/*.js',
@@ -23,15 +25,27 @@ module.exports = function(grunt) {
         config: ".jsbeautifyrc"
       }
     },
-    execute: {
+    shell: {
       collectionProcessor: {
-        src: ['collectionProcessor.js']
+        command: 'node collectionProcessor.js'
       },
       kickoffCollection: {
-        src: ['dev/kickoff-collection.js']
+        command: 'node dev/kickoff-collection.js'
       },
       website: {
-        src: ['server.js']
+        command: 'node server.js'
+      },
+      pack: {
+        command: 'tar -czf ' + path.join(__dirname, 'deploy.tar.gz') + ' lib node_modules controllers www config.json package.json server.js collectionProcessor.js'
+      },
+      provision: {
+        command: 'vagrant provision'
+      },
+      localVm: {
+        command: 'vagrant up'
+      },
+      dockerRabbit: {
+        command: 'docker run -d -p 5672:5672 -p 15672:15672 rabbitmq'
       }
     },
     availabletasks: {
@@ -58,8 +72,12 @@ module.exports = function(grunt) {
 
 
   grunt.registerTask('default', ['jshint:all', 'jsbeautifier', 'server']);
-  grunt.registerTask('kickoffCollection', ['execute:kickoffCollection']);
-  grunt.registerTask('collectionProcessor', ['execute:collectionProcessor']);
-  grunt.registerTask('website', ['execute:website']);
+  grunt.registerTask('kickoffCollection', ['shell:kickoffCollection']);
+  grunt.registerTask('collectionProcessor', ['shell:collectionProcessor']);
+  grunt.registerTask('website', ['shell:website']);
   grunt.registerTask('server', ['parallel:server']);
+
+  grunt.registerTask('create-vm', ['shell:pack', 'shell:localVm']);
+  grunt.registerTask('deploy-vm', ['shell:pack', 'shell:provision']);
+
 };

@@ -3,6 +3,7 @@
   sudo: yes
   roles:
     - nodesource.node
+    - rabbitmq
     - { role: mongodb, backup_mongo: no, mongo_db: "bgg" }
     - { role: bgg-deploy, force: no }
   tasks:

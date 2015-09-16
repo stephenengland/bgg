@@ -39,7 +39,7 @@
 
 - name: Validate Backup Directory
   fail: msg="Backup directory {{ mongo_backup_location }}{{ mongo_db }} does not exist"
-  when: "backup_folder_stat.stat.isdir is not defined and not mongoapt.changed"
+  when: "(backup_mongo or restore_mongo) and backup_folder_stat.stat.isdir is not defined and not mongoapt.changed"
 
 - name: MongoDB | Restore {{ mongo_db }}
   command: mongorestore --host {{ mongo_uri }} --db {{ mongo_db }} --drop {{ mongo_backup_location }}{{ mongo_db }}

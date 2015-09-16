@@ -8,6 +8,30 @@ Board Game Geek Collections app
 * git clone this repo
 * run `npm install` in the repo's directory
 
+### Automated Setup
+
+You have a few options for automated setup:
+
+Linux/Mac OSX:
+
+If you have Vagrant and Ansible installed, you can run the following comands to setup:
+
+```
+npm install
+ansible-galaxy install nodesource.node
+grunt create-vm
+```
+
+and when you want to deploy to it after making changes:
+
+```
+grunt deploy-vm
+```
+
+Windows:
+
+Chocolatey install coming soon.
+
 ## Start the Server
 ```
 grunt server
