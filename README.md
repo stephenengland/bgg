@@ -28,6 +28,8 @@ and when you want to deploy to it after making changes:
 grunt deploy-vm
 ```
 
+Please note when using a vm, some of the grunt features will not be available to you.
+
 Windows:
 
 Chocolatey install coming soon.
