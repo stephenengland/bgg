@@ -3,7 +3,7 @@ Board Game Geek Collections app
 
 ## What is it?
 
-It is a webapp to better view and manage multiple Board Game collections. The goal is to use it to help manage choosing board games to play or bring to events.
+It is a webapp to better view and manage multiple Board Game collections using data from BoardGameGeek.com. The goal is to use it to help manage choosing board games to play or bring to events.
 
 ![Screenshot of UI](example/example.png)
 
