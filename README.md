@@ -8,12 +8,48 @@ Board Game Geek Collections app
 * git clone this repo
 * run `npm install` in the repo's directory
 
+### Automated Setup
+
+You have a few options for automated setup:
+
+Linux/Mac OSX:
+
+If you have Vagrant and Ansible installed, you can run the following comands to setup:
+
+```
+npm install
+ansible-galaxy install nodesource.node
+grunt create-vm
+```
+
+and when you want to deploy to it after making changes:
+
+```
+grunt deploy-vm
+```
+
+Please note when using a vm, some of the grunt features will not be available to you.
+
+Windows:
+
+```
+./WindowsChocoInstall.ps1
+```
+
+This will install NodeJs, RabbitMQ, and MongoDB automatically using [Chocolatey|https://chocolatey.org]. 
+Please note this isn't tested since I already have them installed. 
+It may 'stomp' your version, so be careful if you already have them installed.
+
 ## Start the Server
 ```
 grunt server
 ```
 
 This will run both the collection processor (RabbitMQ based message queue) and the web server (express js)
+
+Then visit the site locally at http://localhost:7080/
+
+Changes made to the javascript/html should cause the browser to refresh the page.
 
 ## Listen/Test Process Collection Messages
 ```

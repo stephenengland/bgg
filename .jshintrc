@@ -1,5 +1,10 @@
 {
   "curly": true,
   "eqnull": true,
-  "eqeqeq": true
+  "eqeqeq": true,
+  "strict": false,
+  "globals": {
+    "angular": true,
+    "_": true
+  }
 }

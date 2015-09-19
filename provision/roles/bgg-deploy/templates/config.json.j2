@@ -1,0 +1,41 @@
+{
+  "logLevel": 4,
+  "mongoConnection": "mongodb://localhost/bgg",
+  "rabbit": {
+    "connection": {
+      "host": "127.0.0.1",
+      "login": "bgg",
+      "password": "bgg",
+      "vhost": "/bgg"
+    },
+    "exchange": {
+      "name": "ProcessCollections",
+      "options": {
+        "durable": false,
+        "autoDelete": false,
+        "exclusive": false,
+        "passive": false,
+        "confirm": true,
+        "type": "direct"
+      }
+    },
+    "queue": {
+      "name": "Node-ProcessCollections",
+      "options": {
+        "durable": false,
+        "autoDelete": false,
+        "exclusive": false,
+        "prefetchCount": 1
+      }
+    },
+    "messageThreads": 4
+  },
+  "bgg": {
+    "collectionRequestDelay": 2000,
+    "collectionStaleDataTimeout": 360000,
+    "missingDataRetry": 6000
+  },
+  "website": {
+    "port": 7080
+  }
+}
