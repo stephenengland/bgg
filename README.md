@@ -32,7 +32,13 @@ Please note when using a vm, some of the grunt features will not be available to
 
 Windows:
 
-Chocolatey install coming soon.
+```
+./WindowsChocoInstall.ps1
+```
+
+This will install NodeJs, RabbitMQ, and MongoDB automatically using [Chocolatey|https://chocolatey.org]. 
+Please note this isn't tested since I already have them installed. 
+It may 'stomp' your version, so be careful if you already have them installed.
 
 ## Start the Server
 ```
