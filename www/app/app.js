@@ -1,5 +1,3 @@
-'use strict';
-
 var bggCollectionsApp = angular.module('bggCollectionsApp', [
   'ngRoute',
   'bggCollectionsControllers',
@@ -8,7 +6,10 @@ var bggCollectionsApp = angular.module('bggCollectionsApp', [
 
 bggCollectionsApp.config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
+    "use strict";
+
     $locationProvider.html5Mode(true);
+
     $routeProvider.
       when('/home', {
         templateUrl: 'partials/home.html',

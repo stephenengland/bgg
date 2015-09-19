@@ -1,11 +1,11 @@
-'use strict';
-
 /* Controllers */
+/*jshint browser: true */
 
 var bggCollectionsControllers = angular.module('bggCollectionsControllers', []);
 
 bggCollectionsControllers.controller('HomeCtrl', ['$scope', 'Collection',
   function($scope, Collection) {
+    'use strict';
 
     $scope.loadingCollection = true;
     $scope.showInGrid = true;
@@ -39,7 +39,7 @@ bggCollectionsControllers.controller('HomeCtrl', ['$scope', 'Collection',
             game.owners = [user.username];
           }
           else {
-            col[game.objectid].owners.push(user.username)
+            col[game.objectid].owners.push(user.username);
           }
         }
       }
@@ -100,5 +100,5 @@ bggCollectionsControllers.controller('HomeCtrl', ['$scope', 'Collection',
 
     $scope.search = function () {
       $scope.refreshFilters();
-    }
+    };
   }]);
