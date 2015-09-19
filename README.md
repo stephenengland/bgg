@@ -39,6 +39,10 @@ grunt server
 
 This will run both the collection processor (RabbitMQ based message queue) and the web server (express js)
 
+Then visit the site locally at http://localhost:7080/
+
+Changes made to the javascript/html should cause the browser to refresh the page.
+
 ## Listen/Test Process Collection Messages
 ```
 grunt collectionProcessor
