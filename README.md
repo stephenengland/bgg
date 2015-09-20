@@ -50,6 +50,8 @@ This will install NodeJs, RabbitMQ, and MongoDB automatically using [Chocolatey]
 Please note this isn't tested since I already have them installed. 
 It may 'stomp' your version, so be careful if you already have them installed.
 
+Please note: You may run into a permission issue when you first run the PowerShell script. Users have reported running it a second time resolves the issue. If you are still having issues, make sure you are running your PowerShell command prompt with elevated permissions (Administrator).
+
 ## Start the Server
 ```
 grunt server
