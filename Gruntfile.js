@@ -67,6 +67,15 @@ module.exports = function(grunt) {
       },
       dockerRabbit: {
         command: 'docker run -d -p 5672:5672 -p 15672:15672 rabbitmq'
+      },
+      /* This task is only used by the owner of https://github.com/thealah/bgg to deploy to the dev environment */
+      provisionToAwsDev: {
+        command: 'ansible-playbook --become-user root --user ubuntu -i aws_inventory --private-key /amazonkeys/IISWeb.pem playbook.yml',
+        options: {
+          execOptions: {
+            cwd: './provision/'
+          }
+        }
       }
     },
     availabletasks: {
@@ -93,13 +102,14 @@ module.exports = function(grunt) {
 
 
   grunt.registerTask('default', ['jshint:all', 'jsbeautifier', 'server']);
-  grunt.registerTask('kickoffCollection', ['shell:kickoffCollection']);
-  grunt.registerTask('collectionProcessor', ['shell:collectionProcessor']);
-  grunt.registerTask('website', ['express:local', 'watch:express']);
-  grunt.registerTask('server', ['parallel:server']);
+  grunt.registerTask('kickoffCollection', 'Run a test message for the processor to pick up on', ['shell:kickoffCollection']);
+  grunt.registerTask('collectionProcessor', 'Run the processor responsible for handling BGG integration', ['shell:collectionProcessor']);
+  grunt.registerTask('website', 'Run the website', ['express:local', 'watch:express']);
+  grunt.registerTask('server', 'Run the website and processor side-by-side', ['parallel:server']);
 
-  grunt.registerTask('create-vm', ['shell:pack', 'shell:localVm']);
-  grunt.registerTask('recreate-vm', ['shell:destroyLocalVm', 'create-vm']);
-  grunt.registerTask('deploy-vm', ['shell:pack', 'shell:provision']);
+  grunt.registerTask('create-vm', 'Create a local vm using Vagrant and Ansible', ['shell:pack', 'shell:localVm']);
+  grunt.registerTask('recreate-vm', 'Remake your local vm using Vagrant and Ansible', ['shell:destroyLocalVm', 'create-vm']);
+  grunt.registerTask('deploy-vm', 'Delete your local vm you created using create-vm', ['shell:pack', 'shell:provision']);
 
+  grunt.registerTask('test', 'This command is what gets run by the Travis CI build to test the app.', ['jshint:all']);
 };

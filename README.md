@@ -1,6 +1,10 @@
 # bgg
 Board Game Geek Collections app
 
+## Environments
+
+*  [Development](http://bgg.theahstudios.com/)
+
 ## What is it?
 
 It is a webapp to better view and manage multiple Board Game collections using data from BoardGameGeek.com. The goal is to use it to help manage choosing board games to play or bring to events.
@@ -46,6 +50,8 @@ This will install NodeJs, RabbitMQ, and MongoDB automatically using [Chocolatey]
 Please note this isn't tested since I already have them installed. 
 It may 'stomp' your version, so be careful if you already have them installed.
 
+Please note: You may run into a permission issue when you first run the PowerShell script. Users have reported running it a second time resolves the issue. If you are still having issues, make sure you are running your PowerShell command prompt with elevated permissions (Administrator).
+
 ## Start the Server
 ```
 grunt server
@@ -70,3 +76,8 @@ What are "Collection Messages"?
 BGG requires you to wait while it processes a collection request. 
 A message queue is used to ensure we properly wait for BGG to finish processing.
 
+## Contributing
+
+If you plan on contributing, please be aware we have [Travis CI](https://travis-ci.org/thealah/bgg) for our builds. Your build must be passing. (run a `grunt test` to check)
+
+The Issues and Milestones should be up-to-date. There should always be work if you are looking to contribute development time or new Issues!
