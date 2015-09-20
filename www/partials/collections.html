@@ -33,7 +33,7 @@
           <label for="add-username">Add Username</label>
           <input id="add-username" type="text" class="form-control" ng-model="addUsername"></input>
         </div>
-        <button class="btn btn-primary" ng-click="addUser()" ng-disabled="addUsername.length <= 2"><i class="glyphicon glyphicon-plus"></i> Add</button>
+        <button class="btn btn-primary" ng-click="addUser(addUsername)" ng-disabled="addUsername.length <= 2"><i class="glyphicon glyphicon-plus"></i> Add</button>
       </form>
     </div>
 

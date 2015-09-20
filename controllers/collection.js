@@ -43,7 +43,7 @@ var newCollection = function (req, res, username) {
 };
 
 module.exports = function (app) {
-  app.get('/collection/:username', function (req, res) {
+  app.get('/api/collection/:username', function (req, res) {
     var username = req.params.username;
     if (username && username.length > 2) {
 

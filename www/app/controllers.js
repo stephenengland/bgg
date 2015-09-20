@@ -3,8 +3,8 @@
 
 var bggCollectionsControllers = angular.module('bggCollectionsControllers', []);
 
-bggCollectionsControllers.controller('HomeCtrl', ['$scope', 'Collection',
-  function($scope, Collection) {
+bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$routeParams', 'Collection',
+  function($scope, $route, $routeParams, Collection) {
     'use strict';
 
     $scope.loadingCollection = true;
@@ -83,10 +83,42 @@ bggCollectionsControllers.controller('HomeCtrl', ['$scope', 'Collection',
       $scope.showInGrid = false;
     };
 
-    $scope.addUser = function () {
-      if ($scope.addUsername && $scope.addUsername.length > 2) {
-        $scope.users[$scope.addUsername] = { "username": $scope.addUsername };
-        $scope.requestCollection($scope.addUsername); //TODO: Add error handling logic 
+    $scope.parseUsernames = function () {
+      if ($routeParams.usernames) {
+        return $routeParams.usernames.split('-'); 
+      }
+
+      return [];
+    };
+
+    $scope.updateUsernames = function () {
+      var usernames = '';
+      var first = true;
+      var users = _.sortBy($.map($scope.users, function(v, i) {
+        return i;
+      }), function (username) {
+        return username;
+      });
+      for (var usernameIndex in users) {
+        if (!first) {
+          usernames += '-';
+        }
+        usernames += users[usernameIndex];
+        first = false;
+      }
+      $route.updateParams({
+        "usernames": usernames
+      });
+    };
+
+    $scope.addUser = function (username, updatingParams) {
+      if (username && username.length > 2) {
+        $scope.users[username] = { "username": username };
+        $scope.requestCollection(username); //TODO: Add error handling logic 
+
+        if (!updatingParams) {
+          $scope.updateUsernames();
+        }
       }
     };
 
@@ -96,9 +128,19 @@ bggCollectionsControllers.controller('HomeCtrl', ['$scope', 'Collection',
       }
       delete $scope.users[username];
       $scope.refreshCollection();
+      $scope.updateUsernames();
     };
 
     $scope.search = function () {
       $scope.refreshFilters();
     };
+
+    $scope.updateFromRoute = function () {
+      var users = $scope.parseUsernames();
+      for (var i=0; i<users.length; i++) {
+        $scope.addUser(users[i], true);
+      }
+    };
+
+    $scope.updateFromRoute();
   }]);
