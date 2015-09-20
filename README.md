@@ -76,3 +76,8 @@ What are "Collection Messages"?
 BGG requires you to wait while it processes a collection request. 
 A message queue is used to ensure we properly wait for BGG to finish processing.
 
+## Contributing
+
+If you plan on contributing, please be aware we have [Travis CI](https://travis-ci.org/thealah/bgg) for our builds. Your build must be passing. (run a `grunt test` to check)
+
+The Issues and Milestones should be up-to-date. There should always be work if you are looking to contribute development time or new Issues!
