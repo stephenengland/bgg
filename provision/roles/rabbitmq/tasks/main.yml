@@ -21,6 +21,9 @@
   rabbitmq_plugin: names=rabbitmq_management state=enabled
   notify: restart rabbitmq-server
 
+- name: Setup Vhost
+  rabbitmq_vhost: name={{rabbitmq_application_vhost}} state=present
+
 - include: setup_users.yml
 
 - name: Ensure that the RabbitMQ service is running
