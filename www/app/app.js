@@ -11,11 +11,11 @@ bggCollectionsApp.config(['$routeProvider', '$locationProvider',
     $locationProvider.html5Mode(true);
 
     $routeProvider.
-      when('/home', {
-        templateUrl: 'partials/home.html',
-        controller: 'HomeCtrl'
+      when('/collections/:usernames?', {
+        templateUrl: 'partials/collections.html',
+        controller: 'CollectionsCtrl'
       }).
       otherwise({
-        redirectTo: '/home'
+        redirectTo: '/collections/'
       });
   }]);
