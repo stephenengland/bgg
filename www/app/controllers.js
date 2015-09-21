@@ -7,7 +7,6 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
   function($scope, $route, $routeParams, Collection) {
     'use strict';
 
-    $scope.loadingCollection = true;
     $scope.showInGrid = true;
     $scope.showInTable = false;
     $scope.collection = [];
@@ -15,6 +14,15 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
     $scope.users = {};
     $scope.addUsername = '';
     $scope.searchFilter = '';
+    $scope.getIsLoadingCollection = function () {
+      if (Object.keys($scope.users).length === 0) {
+        return false;
+      }
+
+      return _.some($scope.users, function (user) {
+        return user.loadingCollection;
+      });
+    };
 
     $scope.refreshFilters = function () {
       var chainedLodashCollection = _.chain($scope.collection);

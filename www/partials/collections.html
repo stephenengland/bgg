@@ -4,14 +4,14 @@
       <li ng-class="{active:showInGrid}">
         <a href="#" ng-click="showGrid()" ng-disabled="showInGrid">
           &nbsp;
-          <i class="glyphicon glyphicon-th-large"></i>
+          <i class="fa fa-th-large"></i>
           &nbsp;
         </a>
       </li>
       <li ng-class="{active:showInTable}">
         <a href="#" ng-click="showTable()" ng-disabled="showInTable">
           &nbsp;
-          <i class="glyphicon glyphicon-th-list"></i>
+          <i class="fa fa-th-list"></i>
           &nbsp;
         </a>
       </li>
@@ -20,7 +20,7 @@
       <div class="form-group">
         <input type="text" ng-model="searchFilter" class="form-control" placeholder="Search">
       </div>
-      <button type="submit" class="btn btn-info" ng-click="search()"><i class="glyphicon glyphicon-search"></i> Search</button>
+      <button type="submit" class="btn btn-info" ng-click="search()"><i class="fa fa-search"></i> Search</button>
     </form>
   </div>
 </div>
@@ -33,14 +33,20 @@
           <label for="add-username">Add Username</label>
           <input id="add-username" type="text" class="form-control" ng-model="addUsername"></input>
         </div>
-        <button class="btn btn-primary" ng-click="addUser(addUsername)" ng-disabled="addUsername.length <= 2"><i class="glyphicon glyphicon-plus"></i> Add</button>
+        <button class="btn btn-primary" ng-click="addUser(addUsername)" ng-disabled="addUsername.length <= 2">
+          <i class="fa fa-plus"></i> Add
+        </button>
+        &nbsp;
+        <span ng-if="getIsLoadingCollection()">
+          <i class="fa fa-refresh fa-spin"></i> Loading Collections...
+        </span>
       </form>
     </div>
 
     <div class="col-md-7">
       <div ng-repeat="user in users" class="pull-right">
         <div class="pull-right">
-          <button class="btn btn-danger" ng-click="removeUser(user.username)"><i class="glyphicon glyphicon-remove"></i> <span ng-bind="user.username"></span></button>
+          <button class="btn btn-danger" ng-click="removeUser(user.username)"><i class="fa fa-times"></i> <span ng-bind="user.username"></span></button>
           &nbsp;
         </div>
       </div>
