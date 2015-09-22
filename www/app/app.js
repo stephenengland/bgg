@@ -11,7 +11,7 @@ bggCollectionsApp.config(['$routeProvider', '$locationProvider',
     $locationProvider.html5Mode(true);
 
     $routeProvider.
-      when('/collections/:usernames?', {
+      when('/collections/:list?/:usernames?', {
         templateUrl: 'partials/collections.html',
         controller: 'CollectionsCtrl'
       }).

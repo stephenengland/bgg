@@ -1,15 +1,15 @@
 <div class="navbar navbar-default">
   <div class="container-fluid">
     <ul class="nav navbar-nav">
-      <li ng-class="{active:showInGrid}">
-        <a href="#" ng-click="showGrid()" ng-disabled="showInGrid">
+      <li ng-class="{active:listType != 'table'}">
+        <a href="#" ng-click="showGrid()" ng-disabled="listType != 'table'">
           &nbsp;
           <i class="fa fa-th-large"></i>
           &nbsp;
         </a>
       </li>
-      <li ng-class="{active:showInTable}">
-        <a href="#" ng-click="showTable()" ng-disabled="showInTable">
+      <li ng-class="{active:listType === 'table'}">
+        <a href="#" ng-click="showTable()" ng-disabled="listType === 'table'">
           &nbsp;
           <i class="fa fa-th-list"></i>
           &nbsp;
@@ -53,7 +53,7 @@
     </div>
   </div>
 
-  <div ng-if="showInGrid" class="row">
+  <div ng-if="listType === 'grid'" class="row">
     <div ng-repeat="bgame in filteredCollection">
       <div class="col-md-2 col-sm-4 col-xs-6 text-center">
         <div class="panel panel-default">
@@ -76,7 +76,7 @@
       </div>
     </div>
   </div>
-  <div ng-if="showInTable" class="row=">
+  <div ng-if="listType === 'table'" class="row=">
     <table class="table table-hover table-responsive">
       <thead>
         <tr>

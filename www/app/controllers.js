@@ -7,8 +7,7 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
   function($scope, $route, $routeParams, Collection) {
     'use strict';
 
-    $scope.showInGrid = true;
-    $scope.showInTable = false;
+    $scope.listType = 'grid';
     $scope.collection = [];
     $scope.filteredCollection = [];
     $scope.users = {};
@@ -38,6 +37,12 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
 
     $scope.refreshCollection = function () {
       var col = {};
+      var addOwnerIfNotExists = function (game, username) {
+        if (!_.find(game.owners, function(owner) { return owner === username; })) {
+          game.owners.push(username);
+        }
+      };
+
       for (var userKey in $scope.users) {
         var user = $scope.users[userKey];
         for (var gameKey in user.collection) {
@@ -47,11 +52,10 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
             game.owners = [user.username];
           }
           else {
-            col[game.objectid].owners.push(user.username);
+            addOwnerIfNotExists(col[game.objectid], user.username);
           }
         }
       }
-
       $scope.collection = col;
       $scope.refreshFilters();
     };
@@ -61,6 +65,7 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
       Collection.get({
         "username": username
       }, function (data) {
+
         if (data.collection && data.collection.length > 0) {
           $scope.users[username].collection = data.collection;
           $scope.refreshCollection();
@@ -81,14 +86,15 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
         }
       });
     };
+
     $scope.showGrid = function () {
-      $scope.showInTable = false;
-      $scope.showInGrid = true;
+      $scope.listType = 'grid';
+      $scope.updateParams();
     };
 
     $scope.showTable = function () {
-      $scope.showInTable = true;
-      $scope.showInGrid = false;
+      $scope.listType = 'table';
+      $scope.updateParams();
     };
 
     $scope.parseUsernames = function () {
@@ -99,7 +105,7 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
       return [];
     };
 
-    $scope.updateUsernames = function () {
+    $scope.updateParams = function () {
       var usernames = '';
       var first = true;
       var users = _.sortBy($.map($scope.users, function(v, i) {
@@ -114,9 +120,18 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
         usernames += users[usernameIndex];
         first = false;
       }
-      $route.updateParams({
+      var params = {
         "usernames": usernames
-      });
+      };
+
+      if ($scope.listType === 'table') {
+        params.list = 'table';
+      }
+      else {
+        params.list = 'grid';
+      }
+
+      $route.updateParams(params);
     };
 
     $scope.addUser = function (username, updatingParams) {
@@ -125,7 +140,7 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
         $scope.requestCollection(username); //TODO: Add error handling logic 
 
         if (!updatingParams) {
-          $scope.updateUsernames();
+          $scope.updateParams();
         }
       }
     };
@@ -136,7 +151,7 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
       }
       delete $scope.users[username];
       $scope.refreshCollection();
-      $scope.updateUsernames();
+      $scope.updateParams();
     };
 
     $scope.search = function () {
@@ -147,6 +162,10 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
       var users = $scope.parseUsernames();
       for (var i=0; i<users.length; i++) {
         $scope.addUser(users[i], true);
+      }
+
+      if ($routeParams.list === 'table') {
+        $scope.listType = 'table';
       }
     };
 
