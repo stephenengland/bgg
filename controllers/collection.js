@@ -44,11 +44,11 @@ var newCollection = function (req, res, username) {
 
 module.exports = function (app) {
   app.get('/api/collection/:username', function (req, res) {
-    var username = req.params.username;
+    var username = req.params.username && req.params.username.length && req.params.username.toLowerCase();
     if (username && username.length > 2) {
 
       Collection.findOne({
-        "username": req.params.username
+        "username": username
       }, function (err, collection) {
         if (err) {
           console.log("controllers/collection.js | Error during collection find!");

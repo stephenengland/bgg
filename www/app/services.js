@@ -9,8 +9,8 @@ bggCollectionsServices.factory('Collection', ['$resource',
     return $resource('/api/collection/:username', {}, {
       query: {
         method:'GET', 
-        params:{
-          username:'username'
+        params: {
+          username: 'username'
         }
       }
     });

@@ -135,7 +135,8 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
     };
 
     $scope.addUser = function (username, updatingParams) {
-      if (username && username.length > 2) {
+      username = username && username.length && username.toLowerCase();
+      if (username && username.length > 2 && !$scope.users[username]) {
         $scope.users[username] = { "username": username };
         $scope.requestCollection(username); //TODO: Add error handling logic 
 
@@ -146,7 +147,7 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
     };
 
     $scope.removeUser = function (username) {
-      if ($scope.users[username].interval) {
+      if ($scope.users[username] && $scope.users[username].interval) {
         clearInterval($scope.users[username].interval);
       }
       delete $scope.users[username];
