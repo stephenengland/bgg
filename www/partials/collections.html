@@ -46,7 +46,7 @@
     <div class="col-md-7">
       <div ng-repeat="user in users" class="pull-right">
         <div class="pull-right">
-          <button class="btn btn-danger" ng-click="removeUser(user.username)"><i class="fa fa-times"></i> <span ng-bind="user.username"></span></button>
+          <button class="btn btn-danger" ng-click="removeUser(user)"><i class="fa fa-times"></i> <span ng-bind="user"></span></button>
           &nbsp;
         </div>
       </div>
@@ -90,7 +90,7 @@
             <span ng-bind="bgame.name"></span>
           </td>
           <td ng-repeat="owner in bgame.owners">
-            <span ng-bind="owner"></span>
+            <span ng-bind="owner.name"></span>
           </td>
         </tr>
       </tbody>
