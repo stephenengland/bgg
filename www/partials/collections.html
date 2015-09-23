@@ -62,6 +62,32 @@
           </div>
           <div class="panel-body">
             <img ng-src="{{bgame.thumbnail}}" class="img-rounded img-responsive center-block" />
+
+          </div>
+          <div class="panel-footer">
+              <div class="row">
+                <div class="col-md-6">
+                  Rating: <span ng-bind="bgame.rating()"></span>
+                </div>
+                <div class="col-md-6">
+                  <div class="hidden-md hidden-lg">
+                    <div ng-if="bgame.minplayers !== bgame.maxplayers">
+                      <span ng-bind="bgame.minplayers"></span> to <span ng-bind="bgame.maxplayers"></span> Players
+                    </div>
+                    <div ng-if="bgame.minplayers === bgame.maxplayers">
+                      <span ng-bind="bgame.minplayers"></span> Players
+                    </div>
+                  </div>
+                  <div class="pull-right hidden-sm hidden-xs">
+                    <div ng-if="bgame.minplayers !== bgame.maxplayers">
+                      <span ng-bind="bgame.minplayers"></span> to <span ng-bind="bgame.maxplayers"></span> Players
+                    </div>
+                    <div ng-if="bgame.minplayers === bgame.maxplayers">
+                      <span ng-bind="bgame.minplayers"></span> Players
+                    </div>
+                  </div>
+                </div>
+              </div>
           </div>
         </div>
       </div>
@@ -81,6 +107,9 @@
       <thead>
         <tr>
           <th>Board Game</th>
+          <th>Min Players</th>
+          <th>Max Players</th>
+          <th>Rating</th>
           <th>Owners</th>
         </tr>
       </thead>
@@ -89,8 +118,19 @@
           <td>
             <span ng-bind="bgame.name"></span>
           </td>
-          <td ng-repeat="owner in bgame.owners">
-            <span ng-bind="owner.name"></span>
+          <td>
+            <span ng-bind="bgame.minplayers"></span>
+          </td>
+          <td>
+            <span ng-bind="bgame.maxplayers"></span>
+          </td>
+          <td>
+            <span ng-bind="bgame.rating()"></span>
+          </td>
+          <td>
+            <div ng-repeat="owner in bgame.owners">
+              <span ng-bind="owner.name"></span>
+            </div>
           </td>
         </tr>
       </tbody>
