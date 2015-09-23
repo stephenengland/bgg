@@ -9,12 +9,8 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
 
     $scope.listType = 'grid';
     $scope.collections = new MultipleCollections();
-    $scope.filteredCollection = [];
     $scope.users = [];
-    $scope.usersInterval = {};
-    $scope.usersLoading = {};
     $scope.addUsername = '';
-    $scope.searchFilter = '';
 
     $scope.showGrid = function () {
       $scope.listType = 'grid';
@@ -27,56 +23,11 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
     };
 
 
-    $scope.getIsLoadingCollection = function () {
-      if (Object.keys($scope.usersLoading).length === 0) {
-        return false;
-      }
-
-      return _.some($scope.usersLoading, function (user) {
-        return user;
-      });
-    };
-
-
-    $scope.refreshFilters = function () {
-      var chainedLodashCollection = _.chain($scope.collections.games);
-      if ($scope.searchFilter.length > 2) {
-        chainedLodashCollection = chainedLodashCollection.filter(function (game) {
-          return game.name.toLowerCase().indexOf($scope.searchFilter.toLowerCase()) > -1;
-        });
-      }
-      chainedLodashCollection = chainedLodashCollection.sortBy('name');
-
-      $scope.filteredCollection = chainedLodashCollection.value();
-    };
-
-    $scope.$watch('collectionRefreshed', function () {
-      console.log($scope.collections);
-      console.log($scope.collections.userCollectionsData);
-      console.log($scope.collections.games); //WTF IS GOING ON HERE!?!?
-      $scope.refreshFilters();
-    });
+    $scope.isPolling = Collection.isPolling;
 
     $scope.requestCollection = function (username) {
-      $scope.usersLoading[username] = true;
-      Collection.get({
-        "username": username
-      }, function (data) {
+      Collection.pollCollection(username, function (data) {
         $scope.collections.addCollection(data, username);
-
-        if (data.processing) {
-          if (!$scope.usersInterval[username]) {
-            $scope.usersInterval[username] = setInterval(function () {
-              $scope.requestCollection(username);
-            }, 5000);
-          }
-        }
-        else {
-          $scope.usersLoading[username] = false;
-          if ($scope.usersInterval[username]) {
-            clearInterval($scope.userIntervals[username]);
-          }
-        }
       });
     };
 
@@ -93,15 +44,15 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
     };
 
     $scope.removeUser = function (username) {
-      if ($scope.userIntervals[username]) {
-        clearInterval($scope.userIntervals[username]);
-      }
+      Collection.stopPolling(username);
+      var i = $scope.users.indexOf(username);
+      $scope.users.splice(i, 1);
       $scope.collections.removeCollection(username);
       $scope.updateParams();
     };
 
     $scope.search = function () {
-      $scope.refreshFilters();
+      $scope.collections.refreshFilters();
     };
 
 

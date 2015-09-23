@@ -18,7 +18,7 @@
     </ul>
     <form class="navbar-form navbar-right">
       <div class="form-group">
-        <input type="text" ng-model="searchFilter" class="form-control" placeholder="Search">
+        <input type="text" ng-model="collections.filterByName" class="form-control" placeholder="Search">
       </div>
       <button type="submit" class="btn btn-info" ng-click="search()"><i class="fa fa-search"></i> Search</button>
     </form>
@@ -37,7 +37,7 @@
           <i class="fa fa-plus"></i> Add
         </button>
         &nbsp;
-        <span ng-if="getIsLoadingCollection()">
+        <span ng-if="isPolling()">
           <i class="fa fa-refresh fa-spin"></i> Loading Collections...
         </span>
       </form>
@@ -54,7 +54,7 @@
   </div>
 
   <div ng-if="listType === 'grid'" class="row">
-    <div ng-repeat="bgame in filteredCollection">
+    <div ng-repeat="bgame in collections.filteredAndSortedGames">
       <div class="col-md-2 col-sm-4 col-xs-6 text-center">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -85,7 +85,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="bgame in filteredCollection">
+        <tr ng-repeat="bgame in collections.filteredAndSortedGames">
           <td>
             <span ng-bind="bgame.name"></span>
           </td>

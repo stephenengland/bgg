@@ -6,7 +6,7 @@ bggCollectionsServices.factory('Collection', ['$resource',
   function ($resource) {
     'use strict';
 
-    return $resource('/api/collection/:username', {}, {
+    var resource = $resource('/api/collection/:username', {}, {
       query: {
         method:'GET', 
         params: {
@@ -14,6 +14,51 @@ bggCollectionsServices.factory('Collection', ['$resource',
         }
       }
     });
+
+    resource.usersInterval = {};
+    resource.usersLoading = {};
+
+    //Polls a username's collection until it gets back data from BGG
+    resource.pollCollection = function (username, collectionCallback) {
+      resource.usersLoading[username] = true;
+      resource.get({
+        "username": username
+      }, function (data) {
+        collectionCallback(data);
+
+        if (data.processing) {
+          if (!resource.usersInterval[username]) {
+            resource.usersInterval[username] = setInterval(function () {
+              resource.pollCollection(username, collectionCallback);
+            }, 5000);
+          }
+        }
+        else {
+          resource.usersLoading[username] = false;
+          if (resource.usersInterval[username]) {
+            clearInterval(resource.usersInterval[username]);
+          }
+        }
+      });
+    };
+
+    resource.stopPolling = function (username) {
+      if (resource.usersInterval[username]) {
+        clearInterval(resource.usersInterval[username]);
+      }
+    };
+
+    resource.isPolling = function () {
+      if (Object.keys(resource.usersLoading).length === 0) {
+        return false;
+      }
+
+      return _.some(resource.usersLoading, function (user) {
+        return user;
+      });
+    };
+
+    return resource;
   }
 ]);
 
@@ -26,6 +71,20 @@ bggCollectionsServices.factory('MultipleCollections', [ '$rootScope', 'Owner', f
     $this.userCollectionsData = {};
 
     $this.games = {};
+    $this.filterByName = '';
+    $this.filteredAndSortedGames = [];
+
+    $this.refreshFilters = function () {
+      var chainedLodashCollection = _.chain($this.games);
+      if ($this.filterByName.length > 2) {
+        chainedLodashCollection = chainedLodashCollection.filter(function (game) {
+          return game.name.toLowerCase().indexOf($this.filterByName.toLowerCase()) > -1;
+        });
+      }
+      chainedLodashCollection = chainedLodashCollection.sortBy('name');
+
+      $this.filteredAndSortedGames = chainedLodashCollection.value();
+    };
 
     $this.refresh = function () {
       var addOwnerIfNotExists = function (username, joinedGame, ownersGame) {
@@ -44,12 +103,12 @@ bggCollectionsServices.factory('MultipleCollections', [ '$rootScope', 'Owner', f
             ownersGame.owners = [ new Owner(userKey, ownersGame) ];
           }
           else {
-            addOwnerIfNotExists(user.username, $this.games[ownersGame.objectid], ownersGame);
+            addOwnerIfNotExists(userKey, $this.games[ownersGame.objectid], ownersGame);
           }
         }
       }
 
-      $rootScope.$emit('collectionRefreshed', {}); 
+      $this.refreshFilters();
     };
 
     $this.addCollection = function (data, username) {
