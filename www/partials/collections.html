@@ -107,6 +107,9 @@
       <thead>
         <tr>
           <th>Board Game</th>
+          <th>Min Players</th>
+          <th>Max Players</th>
+          <th>Rating</th>
           <th>Owners</th>
         </tr>
       </thead>
@@ -115,8 +118,19 @@
           <td>
             <span ng-bind="bgame.name"></span>
           </td>
-          <td ng-repeat="owner in bgame.owners">
-            <span ng-bind="owner.name"></span>
+          <td>
+            <span ng-bind="bgame.minplayers"></span>
+          </td>
+          <td>
+            <span ng-bind="bgame.maxplayers"></span>
+          </td>
+          <td>
+            <span ng-bind="bgame.rating()"></span>
+          </td>
+          <td>
+            <div ng-repeat="owner in bgame.owners">
+              <span ng-bind="owner.name"></span>
+            </div>
           </td>
         </tr>
       </tbody>

@@ -127,7 +127,7 @@ bggCollectionsServices.factory('Owner', [ function () {
 
   //Owner 'constructor'
   return function (username, game) {
-    this.username = username;
+    this.name = username;
     this.rating = game.userrating;
 
     return this;
