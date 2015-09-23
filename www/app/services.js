@@ -62,7 +62,7 @@ bggCollectionsServices.factory('Collection', ['$resource',
   }
 ]);
 
-bggCollectionsServices.factory('MultipleCollections', [ '$rootScope', 'Owner', function ($rootScope, Owner) {
+bggCollectionsServices.factory('MultipleCollections', [ '$rootScope', 'Game', function ($rootScope, Game) {
   'use strict';
 
   return function () {
@@ -87,23 +87,16 @@ bggCollectionsServices.factory('MultipleCollections', [ '$rootScope', 'Owner', f
     };
 
     $this.refresh = function () {
-      var addOwnerIfNotExists = function (username, joinedGame, ownersGame) {
-        if (!_.find(joinedGame.owners, 'username', username)) {
-          joinedGame.owners.push(new Owner(username, ownersGame));
-        }
-      };
-
       $this.games = {};
       for (var userKey in $this.userCollectionsData) {
         var collection = $this.userCollectionsData[userKey];
         for (var gameKey in collection) {
           var ownersGame = collection[gameKey];
           if (!$this.games[ownersGame.objectid]) {
-            $this.games[ownersGame.objectid] = ownersGame;
-            ownersGame.owners = [ new Owner(userKey, ownersGame) ];
+            $this.games[ownersGame.objectid] = new Game(ownersGame, userKey);
           }
           else {
-            addOwnerIfNotExists(userKey, $this.games[ownersGame.objectid], ownersGame);
+            $this.games[ownersGame.objectid].addOwnerIfNotExists(userKey, ownersGame);
           }
         }
       }
@@ -138,5 +131,26 @@ bggCollectionsServices.factory('Owner', [ function () {
     this.rating = game.userrating;
 
     return this;
+  };
+}]);
+
+bggCollectionsServices.factory('Game', ['Owner', function (Owner) {
+  'use strict';
+
+  //Game 'constructor'
+  return function (game, owner) {
+    game.owners = [ new Owner(owner, game) ];
+
+    game.addOwnerIfNotExists = function (owner, ownersGame) {
+      if (!_.find(game.owners, 'username', owner)) {
+        game.owners.push(new Owner(owner, ownersGame));
+      }
+    };
+
+    game.rating = function () {
+      return parseFloat(game.bggrating).toFixed(1);
+    };
+
+    return game;
   };
 }]);
