@@ -1,6 +1,6 @@
 {
   "logLevel": 4,
-  "mongoConnection": "mongodb://localhost/bgg",
+  "mongoConnection": "mongodb://localhost",
   "rabbit": {
     "connection": {
       "host": "127.0.0.1",
