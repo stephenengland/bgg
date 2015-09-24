@@ -54,18 +54,18 @@ Please note: You may run into a permission issue when you run the PowerShell scr
 
 ### Local Development
 
-## Start RabbitMQ and MongoDB
+#### Start RabbitMQ and MongoDB
 ```
-grunt rabbit
-grunt mongo
+grunt rabbitmq
+grunt mongodb
 ```
 
-NOTE: For Mac OSX make sure that you add rabbitmq to your shell's profile (for BASH and most shells this is ~/.profile)
+*Note: For Mac OSX make sure that you add rabbitmq to your shell's profile (for BASH and most shells this is ~/.profile)*
 ```
 export PATH=$PATH:/usr/local/sbin
 ```
 
-## Start the Server
+#### Start the Server
 ```
 grunt server
 ```
