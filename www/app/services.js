@@ -73,6 +73,58 @@ bggCollectionsServices.factory('MultipleCollections', [ '$rootScope', 'Game', fu
     $this.games = {};
     $this.filterByName = '';
     $this.filteredAndSortedGames = [];
+    $this.minimumPlayers = 1;
+    $this.maximumPlayers = 30;
+    $this.minPlayersFilter = 1;
+    $this.maxPlayersFilter = 30;
+
+    $this.minimumRating = 1;
+    $this.maximumRating = 10;
+    $this.ratingFilter = 1;
+
+    $this.refreshAggregateData = function () {
+      var game = _.min($this.games, function (game) {
+        return (game.minplayers && parseInt(game.minplayers)) || 99;
+      });
+
+      $this.minimumPlayers = (game && game.minplayers) || 99;
+      
+      if ($this.minimumPlayers === 99) {
+        $this.minimumPlayers = 1;
+      }
+
+      game = _.max($this.games, function (game) {
+        return (game.maxplayers && parseInt(game.maxplayers)) || 0;
+      }).maxplayers || 0;
+
+      $this.maximumPlayers = (game && game.maxplayers) || 0;
+      
+      if ($this.maximumPlayers >= 30 || $this.maximumPlayers === 0) {
+        $this.maximumPlayers = 30;
+      }
+
+      if ($this.minPlayersFilter < $this.minimumPlayers) {
+        $this.minPlayersFilter = $this.minimumPlayers;
+      }
+
+      if ($this.maxPlayersFilter > $this.maximumPlayers) {
+        $this.maxPlayersFilter = $this.maximumPlayers;
+      }
+
+      game = _.max($this.games, function (game) {
+        return (game.bggrating && parseFloat(game.bggrating)) || -1;
+      });
+
+      $this.maximumRating = game.bggrating || 10;
+    };
+
+    $this.gameIsWithinRange = function (game) {
+      var minPlayers = (game.minplayers && parseInt(game.minplayers)) || 1;
+      var maxPlayers = (game.maxplayers && parseInt(game.maxplayers)) || 30;
+      var rating = (game.bggrating && parseFloat(game.bggrating)) || 0;
+
+      return $this.maxPlayersFilter >= minPlayers && $this.minPlayersFilter <= maxPlayers && ($this.ratingFilter <= 1 || $this.ratingFilter <= rating);
+    };
 
     $this.refreshFilters = function () {
       var chainedLodashCollection = _.chain($this.games);
@@ -81,6 +133,7 @@ bggCollectionsServices.factory('MultipleCollections', [ '$rootScope', 'Game', fu
           return game.name.toLowerCase().indexOf($this.filterByName.toLowerCase()) > -1;
         });
       }
+      chainedLodashCollection = chainedLodashCollection.filter($this.gameIsWithinRange);
       chainedLodashCollection = chainedLodashCollection.sortBy('name');
 
       $this.filteredAndSortedGames = chainedLodashCollection.value();
@@ -101,6 +154,7 @@ bggCollectionsServices.factory('MultipleCollections', [ '$rootScope', 'Game', fu
         }
       }
 
+      $this.refreshAggregateData();
       $this.refreshFilters();
     };
 

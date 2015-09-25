@@ -53,6 +53,34 @@
     </div>
   </div>
 
+  <hr />
+
+  <div class="row">
+    <div class="col-md-4 col-md-offset-1">
+      <label>Number of Players</label>
+      <rzslider 
+        rz-slider-ceil="collections.maximumPlayers"
+        rz-slider-floor="collections.minimumPlayers"
+        rz-slider-model="collections.minPlayersFilter"
+        rz-slider-high="collections.maxPlayersFilter"
+        rz-slider-on-change="onFilterChange()"
+        >
+      </rzslider>
+    </div>
+    <div class="col-md-4 col-md-offset-2">
+      <label>Average Rating</label>
+      <rzslider 
+        rz-slider-ceil="collections.maximumRating"
+        rz-slider-floor="collections.minimumRating"
+        rz-slider-model="collections.ratingFilter"
+        rz-slider-on-change="onFilterChange()"
+        >
+      </rzslider>
+    </div>
+  </div>
+
+  <hr />
+
   <div ng-if="listType === 'grid'" class="row">
     <div ng-repeat="bgame in collections.filteredAndSortedGames">
       <div class="col-md-2 col-sm-4 col-xs-6 text-center">
