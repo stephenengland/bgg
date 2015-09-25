@@ -1,7 +1,8 @@
 var bggCollectionsApp = angular.module('bggCollectionsApp', [
   'ngRoute',
   'bggCollectionsControllers',
-  'bggCollectionsServices'
+  'bggCollectionsServices',
+  'rzModule'
 ]);
 
 bggCollectionsApp.config(['$routeProvider', '$locationProvider',

@@ -55,6 +55,9 @@ bggCollectionsControllers.controller('CollectionsCtrl', ['$scope', '$route', '$r
       $scope.collections.refreshFilters();
     };
 
+    $scope.onFilterChange = function () {
+      $scope.collections.refreshFilters();
+    };
 
     $scope.parseUsernames = function () {
       if ($routeParams.usernames) {
