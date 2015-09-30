@@ -52,7 +52,20 @@ It may 'stomp' your version, so be careful if you already have them installed.
 
 Please note: You may run into a permission issue when you run the PowerShell script. If you are still having issues, make sure you are running your PowerShell command prompt with elevated permissions (Administrator). If that still doesn't work, you may have to install one/all of the dependencies manually (NodeJs, RabbitMQ, MongoDB)
 
-## Start the Server
+### Local Development
+
+#### Start RabbitMQ and MongoDB
+```
+grunt rabbitmq
+grunt mongodb
+```
+
+*Note: For Mac OSX make sure that you add rabbitmq to your shell's profile (for BASH and most shells this is ~/.profile)*
+```
+export PATH=$PATH:/usr/local/sbin
+```
+
+#### Start the Server
 ```
 grunt server
 ```
