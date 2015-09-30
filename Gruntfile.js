@@ -90,9 +90,9 @@ module.exports = function(grunt) {
           }
       },
       rabbitmq: {
-        command: 'rabbitmq-server',
+        command: 'rabbitmq-server -detached',
         options: {
-          async: true,
+          async: false,
           stdout: true,
           stderr: true,
           failOnError: true,
@@ -104,14 +104,16 @@ module.exports = function(grunt) {
       stopRabbitMQ: {
         command: 'rabbitmqctl -q stop',
         options: {
-          stderr: true,
+          stderr: false,
+          stdout: false,
           failOnError: false
         }      
       },
       stopMongoDB: {
         command: 'mongo --eval "db.getSiblingDB(\'admin\').shutdownServer()"',
         options: {
-          stderr: true,
+          stderr: false,
+          stdout: false,
           failOnError: false
         }
       }
