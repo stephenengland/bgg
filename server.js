@@ -14,7 +14,7 @@ nconf.file({
 
 app.use(compression());
 
-mongoose.connect(nconf.get("mongoConnection"));
+mongoose.connect(nconf.get('mongoConnection'));
 
 mongoose.connection.on('error', console.error.bind(console, 'Mongoose Connection Error:'));
 mongoose.connection.once('open', function (callback) {

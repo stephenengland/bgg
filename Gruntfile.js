@@ -78,10 +78,10 @@ module.exports = function(grunt) {
         }
       },
       mongodb: {
-        command: 'mongod --dbpath ./data/db',
+        command: 'mkdir -m a=rwx -p /data/bgg && mongod --dbpath /data/bgg',
         options: {
             async: true,
-            stdout: false,
+            stdout: true,
             stderr: true,
             failOnError: true,
             execOptions: {
@@ -93,12 +93,26 @@ module.exports = function(grunt) {
         command: 'rabbitmq-server',
         options: {
           async: true,
-          stdout: false,
+          stdout: true,
           stderr: true,
           failOnError: true,
           execOptions: {
             cwd: '.'            
           }
+        }
+      },
+      stopRabbitMQ: {
+        command: 'rabbitmqctl -q stop',
+        options: {
+          stderr: true,
+          failOnError: false
+        }      
+      },
+      stopMongoDB: {
+        command: 'mongo --eval "db.getSiblingDB(\'admin\').shutdownServer()"',
+        options: {
+          stderr: true,
+          failOnError: false
         }
       }
     },
@@ -131,11 +145,12 @@ module.exports = function(grunt) {
   grunt.registerTask('collectionProcessor', 'Run the processor responsible for handling BGG integration', ['shell:collectionProcessor']);
   grunt.registerTask('website', 'Run the website', ['express:local', 'watch:express']);
   grunt.registerTask('server', 'Run the website and processor side-by-side', ['parallel:server']);
-  grunt.registerTask('mongo', 'Start the mongodb server', ['shell:mongodb']);
-  grunt.registerTask('rabbit', 'Start the rabbitmq-server', ['shell:rabbitmq']);
+  grunt.registerTask('mongodb', 'Start the mongodb server', ['shell:mongodb']);
+  grunt.registerTask('rabbitmq', 'Start the rabbitmq-server', ['shell:rabbitmq']);
   grunt.registerTask('create-vm', 'Create a local vm using Vagrant and Ansible', ['shell:pack', 'shell:localVm']);
   grunt.registerTask('recreate-vm', 'Remake your local vm using Vagrant and Ansible', ['shell:destroyLocalVm', 'create-vm']);
   grunt.registerTask('deploy-vm', 'Delete your local vm you created using create-vm', ['shell:pack', 'shell:provision']);
+  grunt.registerTask('cleanup', 'Stop the running processes', ['shell:stopMongoDB', 'shell:stopRabbitMQ']);
 
   grunt.registerTask('test', 'This command is what gets run by the Travis CI build to test the app.', ['jshint:all']);
 };
