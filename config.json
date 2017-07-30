@@ -1,9 +1,9 @@
 {
   "logLevel": 4,
-  "mongoConnection": "mongodb://localhost/bgg",
+  "mongoConnection": "mongodb://mongo:27017/bgg",
   "rabbit": {
     "connection": {
-      "host": "127.0.0.1",
+      "host": "rabbitmq",
       "login": "guest",
       "password": "guest",
       "vhost": "/"
@@ -36,6 +36,6 @@
     "missingDataRetry": 6000
   },
   "website": {
-    "port": 7080
+    "port": 80
   }
 }
