@@ -1,0 +1,33 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/bgg
+    docker:
+      - image: docker:17.06.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 17.06.0-ce
+      - run:
+          name: Docker Build
+          command: docker build -t="bgg" .
+      - run:
+          name: Make dist folder
+          command: mkdir -p ~/bgg/dist
+      - run:
+          name: Copy files from docker image
+          command: docker run bgg tar -c -C /usr/share/nginx/html/ . | tar -x -C ~/bgg/dist/
+      - run:
+          name: Add aws cli dependencies
+          command: |
+            apk add --update python python-dev py-pip build-base libffi-dev openssl-dev
+      - run:
+          name: Add aws cli
+          command: |
+            pip install awscli
+      - deploy:
+          name: Push website to s3
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "develop" ]; then
+              aws s3 sync ~/bgg/dist/ s3://bgg.theahstudios.com/ --delete
+            fi

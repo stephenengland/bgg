@@ -1,18 +1,11 @@
-FROM node:8.2.1-alpine
+#FROM node:8.2.1-alpine
+#WORKDIR /app
+#ADD package.json /app/package.json
+#ADD www /app/www
+#RUN npm install -g grunt-cli && npm install
+#RUN grunt build
 
-RUN apk add --no-cache git
-
-WORKDIR /app
-CMD grunt server
-
-ADD package.json /app/package.json
-RUN npm install -g grunt-cli && npm install
-
-ADD Gruntfile.js /app/Gruntfile.js
-
-ADD config.json /app/config.json
-ADD controllers /app/controllers
-ADD lib /app/lib
-ADD www /app/www
-ADD collectionProcessor.js /app/collectionProcessor.js
-ADD server.js /app/server.js
+FROM nginx:1.13.3-alpine
+#COPY --from=0 /app/dist/ /usr/share/nginx/html/
+ADD www/ /usr/share/nginx/html/
+ADD nginx.conf /etc/nginx/nginx.conf

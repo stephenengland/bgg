@@ -1,8 +1,0 @@
-mongo_uri: 127.0.0.1:27017
-mongo_backup_location: /var/backups/mongo/
-mongo_backup_location_local: "{{ playbook_dir }}/../"
-mongo_backup_location_local_append: ""
-backup_mongo: no
-restore_mongo: no
-download_backup_mongo: yes
-use_local_backup_during_restore: yes

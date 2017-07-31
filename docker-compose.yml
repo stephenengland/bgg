@@ -4,14 +4,3 @@ services:
     build: .
     ports:
       - 9000:80
-    links:
-      - rabbitmq
-      - mongo
-  mongo:
-    image: mongo:latest
-    ports:
-      - 27017:27017
-  rabbitmq:
-    image: rabbitmq:latest
-    ports:
-      - 5672:5672
