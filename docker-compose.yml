@@ -3,4 +3,6 @@ services:
   bgg:
     build: .
     ports:
-      - 9000:80
+      - 9000:9000
+    volumes:
+      - ./:/opt/app
