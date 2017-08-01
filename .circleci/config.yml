@@ -12,11 +12,8 @@ jobs:
           name: Docker Build
           command: docker build -t="bgg" .
       - run:
-          name: Make dist folder
-          command: mkdir -p ~/bgg/dist
-      - run:
           name: Copy files from docker image
-          command: docker run bgg tar -c -C /usr/share/nginx/html/ . | tar -x -C ~/bgg/dist/
+          command: docker run bgg npm install && docker run bgg npm run build-prod
       - run:
           name: Add aws cli dependencies
           command: |
@@ -29,5 +26,5 @@ jobs:
           name: Push website to s3
           command: |
             if [ "${CIRCLE_BRANCH}" == "develop" ]; then
-              aws s3 sync ~/bgg/dist/ s3://bgg.theahstudios.com/ --delete
+              aws s3 sync ~/bgg/public/ s3://bgg.theahstudios.com/ --delete
             fi
