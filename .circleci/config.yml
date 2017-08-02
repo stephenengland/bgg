@@ -13,7 +13,7 @@ jobs:
           command: docker build -t="bgg" .
       - run:
           name: Copy files from docker image
-          command: docker run -v ~/bgg/:/opt/app bgg npm install && docker run bgg npm run build-prod
+          command: docker run -v ~/bgg:/opt/app bgg npm install && docker run -v ~/bgg:/opt/app bgg npm run build-prod
       - run:
           name: Add aws cli dependencies
           command: |
