@@ -16,16 +16,16 @@ jobs:
           command: docker build -t="bgg" .
       - run:
           name: ls in docker
-          command: docker run -v /root/bgg/:/opt/app/ bgg ls
+          command: docker run -v /root/bgg:/opt/app bgg ls
       - run:
           name: ls in docker2
-          command: docker run -v ~/bgg:/opt/app bgg ls
+          command: docker run -v ./:/opt/app/ bgg ls
       - run:
           name: npm install
-          command: docker run -v ~/bgg:/opt/app bgg npm install
+          command: docker run -v /root/bgg:/opt/app bgg npm install
       - run:
           name: Build prod
-          command: docker run -v ~/bgg:/opt/app bgg npm run build-prod
+          command: docker run -v /root/bgg:/opt/app bgg npm run build-prod
       - run:
           name: Add aws cli dependencies
           command: |
@@ -38,5 +38,5 @@ jobs:
           name: Push website to s3
           command: |
             if [ "${CIRCLE_BRANCH}" == "develop" ]; then
-              aws s3 sync ~/bgg/public/ s3://bgg.theahstudios.com/ --delete
+              aws s3 sync /root/bgg/public/ s3://bgg.theahstudios.com/ --delete
             fi
