@@ -38,6 +38,7 @@ module.exports = {
   },
   devServer: {
     contentBase: __dirname + '/public',
+    inline: true
   },
   plugins: [
     new CleanWebpackPlugin(['css/main.css', 'js/bundle.js'], {

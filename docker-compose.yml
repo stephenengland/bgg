@@ -1,6 +1,7 @@
 version: '2.0'
 services:
   bgg:
+    container_name: bgg
     build: .
     ports:
       - 9000:9000
