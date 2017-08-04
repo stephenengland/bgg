@@ -18,9 +18,6 @@ jobs:
           name: ls in docker
           command: docker run -v /root/bgg:/opt/app bgg ls
       - run:
-          name: ls in docker2
-          command: docker run -v ./:/opt/app/ bgg ls
-      - run:
           name: npm install
           command: docker run -v /root/bgg:/opt/app bgg npm install
       - run:
