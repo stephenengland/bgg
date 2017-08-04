@@ -15,11 +15,8 @@ jobs:
           name: Docker Build
           command: docker build -t="bgg" .
       - run:
-          name: Make dist folder
-          command: mkdir -p ~/bgg/dist
-      - run:
           name: Copy files from docker image
-          command: docker run bgg tar -c -C /app/public/ . | tar -x -C ~/bgg/dist
+          command: docker run bgg tar -c -C /app/public/ . | tar -x -C ~/bgg/public
       - run:
           name: Add aws cli dependencies
           command: |
