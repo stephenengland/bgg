@@ -16,22 +16,35 @@ export class BoardGameCollection extends React.Component {
 
     return (
       <div>
-        <Table bordered hover responsive striped>
-          <thead>
-          <tr>
-            <th>Names</th>
-          </tr>
-          </thead>
-          <tbody>
           {collection.map((boardgame, index) => {
               return (
-                <tr key={index}>
-                    <td>{boardgame.name}</td>
-                </tr>
+                <div className="col-md-2 col-sm-4 col-xs-6 text-center" key={index}>
+                  <div className="panel panel-default">
+                    <div className="panel-heading">
+                      <h4>{boardgame.name}</h4>
+                    </div>
+                    <div className="panel-body">
+                      <img src={boardgame.thumbnail} className="img-rounded img-responsive center-block" />
+                    </div>
+                    <div className="panel-footer">
+                        <div className="row">
+                          <div className="col-md-6">
+                            Rating: {boardgame.rating}
+                          </div>
+                          <div className="col-md-6">
+                            <div className="hidden-md hidden-lg">
+                              {boardgame.label}
+                            </div>
+                            <div className="pull-right hidden-sm hidden-xs">
+                              {boardgame.label}
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
               );
           })}
-          </tbody>
-        </Table>
       </div>
     );
   }
