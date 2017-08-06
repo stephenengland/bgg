@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import BoardGame from "./BoardGame";
-//import Masonry from 'masonry-layout'
 
 export class BoardGameCollection extends React.Component {
   constructor(props) {
@@ -11,17 +10,6 @@ export class BoardGameCollection extends React.Component {
     this.state = {
     };
   }
-
-  /*
-  componentDidMount() {
-    const grid = document.querySelector(".masonry-grid");
-    const masonry = new Masonry(grid, {
-      itemSelector: ".board-game",
-      columnWidth: 280,
-      gutter: 20
-    });
-  }
-  */
 
   render() {
     const {collection} = this.props;

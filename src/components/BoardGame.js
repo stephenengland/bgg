@@ -13,7 +13,7 @@ export default class BoardGame extends React.Component {
             <h4>{boardgame.name}</h4>
             <img src={boardgame.thumbnail} className="img-rounded" />
             <p>
-            {boardgame.label}
+                {boardgame.label}
             </p>
         </div>
     );
