@@ -1,3 +1,16 @@
 .test {
     color: black;
 }
+
+.board-game {
+    float: left;
+    margin: 15px;
+    padding: 10px;
+    text-align: center;
+}
+.board-game:hover {
+    margin: 14px;
+    border: 1px solid black;
+    box-shadow: 2px 2px gray;
+    cursor: pointer;
+}

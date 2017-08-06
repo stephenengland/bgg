@@ -24,6 +24,60 @@ export default function collection(state = [], action) {
                     maxplayers: 30
                 },
                 {
+                    name: "7 Wonders",
+                    thumbnail: "https://cf.geekdo-images.com/images/pic860217_t.jpg",
+                    minplayers: 2,
+                    maxplayers: 7
+                },
+                {
+                    name: "Castles Of Burgundy",
+                    thumbnail: "https://cf.geekdo-images.com/images/pic1176894_t.jpg",
+                    minplayers: 2,
+                    maxplayers: 4
+                },
+                {
+                    name: "Cards Against Humanity",
+                    thumbnail: "https://cf.geekdo-images.com/images/pic2909692_t.jpg",
+                    minplayers: 4,
+                    maxplayers: 30
+                },
+                {
+                    name: "7 Wonders",
+                    thumbnail: "https://cf.geekdo-images.com/images/pic860217_t.jpg",
+                    minplayers: 2,
+                    maxplayers: 7
+                },
+                {
+                    name: "Castles Of Burgundy",
+                    thumbnail: "https://cf.geekdo-images.com/images/pic1176894_t.jpg",
+                    minplayers: 2,
+                    maxplayers: 4
+                },
+                {
+                    name: "Cards Against Humanity",
+                    thumbnail: "https://cf.geekdo-images.com/images/pic2909692_t.jpg",
+                    minplayers: 4,
+                    maxplayers: 30
+                },
+                {
+                    name: "Castles Of Burgundy",
+                    thumbnail: "https://cf.geekdo-images.com/images/pic1176894_t.jpg",
+                    minplayers: 2,
+                    maxplayers: 4
+                },
+                {
+                    name: "Cards Against Humanity",
+                    thumbnail: "https://cf.geekdo-images.com/images/pic2909692_t.jpg",
+                    minplayers: 4,
+                    maxplayers: 30
+                },
+                {
+                    name: "7 Wonders",
+                    thumbnail: "https://cf.geekdo-images.com/images/pic860217_t.jpg",
+                    minplayers: 2,
+                    maxplayers: 7
+                },
+                {
                     name: "Castles Of Burgundy",
                     thumbnail: "https://cf.geekdo-images.com/images/pic1176894_t.jpg",
                     minplayers: 2,

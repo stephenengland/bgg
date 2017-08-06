@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
-import { Table } from "react-bootstrap";
+import BoardGame from "./BoardGame";
+//import Masonry from 'masonry-layout'
 
 export class BoardGameCollection extends React.Component {
   constructor(props) {
@@ -11,6 +12,17 @@ export class BoardGameCollection extends React.Component {
     };
   }
 
+  /*
+  componentDidMount() {
+    const grid = document.querySelector(".masonry-grid");
+    const masonry = new Masonry(grid, {
+      itemSelector: ".board-game",
+      columnWidth: 280,
+      gutter: 20
+    });
+  }
+  */
+
   render() {
     const {collection} = this.props;
 
@@ -18,31 +30,7 @@ export class BoardGameCollection extends React.Component {
       <div>
           {collection.map((boardgame, index) => {
               return (
-                <div className="col-md-2 col-sm-4 col-xs-6 text-center" key={index}>
-                  <div className="panel panel-default">
-                    <div className="panel-heading">
-                      <h4>{boardgame.name}</h4>
-                    </div>
-                    <div className="panel-body">
-                      <img src={boardgame.thumbnail} className="img-rounded img-responsive center-block" />
-                    </div>
-                    <div className="panel-footer">
-                        <div className="row">
-                          <div className="col-md-6">
-                            Rating: {boardgame.rating}
-                          </div>
-                          <div className="col-md-6">
-                            <div className="hidden-md hidden-lg">
-                              {boardgame.label}
-                            </div>
-                            <div className="pull-right hidden-sm hidden-xs">
-                              {boardgame.label}
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                  </div>
-                </div>
+                <BoardGame key={index} boardgame={boardgame} />
               );
           })}
       </div>
