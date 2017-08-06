@@ -1,15 +1,7 @@
 import React from "react";
-import { connect } from "react-redux";
 import "../stylesheets/main.scss";
-import { loadCollection } from "../reducers/collection"
 
-// app component
-export class App extends React.Component {
-  componentDidMount () {
-    this.props.load();
-  }
-
-  // render
+export default class App extends React.Component {
   render() {
     return (
       <div className="container">
@@ -18,12 +10,3 @@ export class App extends React.Component {
     );
   }
 }
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    load: () => {
-      dispatch(loadCollection())
-    }
-  }
-}
-export default connect(null, mapDispatchToProps)(App);

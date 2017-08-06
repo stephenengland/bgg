@@ -1,28 +1,25 @@
 import React from "react";
 import { connect } from "react-redux";
-import { loadUser } from "../reducers/user"
+import { loadUser } from "../reducers/users"
+import { loadCollection } from "../reducers/collection";
 
 export class UsernameInput extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleTextChange(event) {
     this.selectedUser = event.target.value;
   }
 
   render() {
-    const { selectedUser, dispatch } = this.props;
+    const { users, dispatch } = this.props;
 
     return (
         <form className="form-inline" onSubmit={e => {
                 e.preventDefault();
-                dispatch(loadUser(this.selectedUser))
+                dispatch(loadUser(this.selectedUser));
+                dispatch(loadCollection());
             }}>
             <div className="form-group">
                 <label htmlFor="selected-user">Username</label>
                 <input id="selected-user" type="text" className="form-control"
-                  value={selectedUser}
                   onChange={event => this.handleTextChange(event)}
                   style={{"marginLeft": "10px", "marginRight": "10px"}} />
             </div>
@@ -31,4 +28,4 @@ export class UsernameInput extends React.Component {
     );
   }
 }
-export default connect()(UsernameInput);
+export default connect(state => { return { users: state.users||[] } })(UsernameInput);
