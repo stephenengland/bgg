@@ -14,3 +14,13 @@
     box-shadow: 2px 2px gray;
     cursor: pointer;
 }
+.user-list {
+    display: inline-block;
+    margin-left: 1em;
+    margin-right: 1em;
+    padding-top: .5em;
+}
+.user {
+    float: left;
+    margin-right: 1em;
+}

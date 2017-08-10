@@ -1,3 +1,6 @@
+export const COLLECTION_LOAD_START = 'COLLECTION_LOAD_START';
+export const A_COLLECTION_LOAD_END = 'COLLECTION_LOAD_END';
+
 function createLabel (item) {
     if (item.minplayers !== item.maxplayers) {
         item.label = item.minplayers + " to " + item.maxplayers + " Players";
@@ -7,97 +10,78 @@ function createLabel (item) {
     }
 }
 
-export default function collection(state = [], action) {
+function getUserCollection(user) {
+    return user.collection;
+};
+
+function combineArrays(a, b) {
+    return a.concat(b);
+};
+
+export default function collection(state = {
+    users: [],
+    items: []
+}, action) {
     switch (action.type) {
-        case 'COLLECTION_LOAD':
-            var newItems = [
-                {
-                    name: "7 Wonders",
-                    thumbnail: "https://cf.geekdo-images.com/images/pic860217_t.jpg",
-                    minplayers: 2,
-                    maxplayers: 7
-                },
-                {
-                    name: "Cards Against Humanity",
-                    thumbnail: "https://cf.geekdo-images.com/images/pic2909692_t.jpg",
-                    minplayers: 4,
-                    maxplayers: 30
-                },
-                {
-                    name: "7 Wonders",
-                    thumbnail: "https://cf.geekdo-images.com/images/pic860217_t.jpg",
-                    minplayers: 2,
-                    maxplayers: 7
-                },
-                {
-                    name: "Castles Of Burgundy",
-                    thumbnail: "https://cf.geekdo-images.com/images/pic1176894_t.jpg",
-                    minplayers: 2,
-                    maxplayers: 4
-                },
-                {
-                    name: "Cards Against Humanity",
-                    thumbnail: "https://cf.geekdo-images.com/images/pic2909692_t.jpg",
-                    minplayers: 4,
-                    maxplayers: 30
-                },
-                {
-                    name: "7 Wonders",
-                    thumbnail: "https://cf.geekdo-images.com/images/pic860217_t.jpg",
-                    minplayers: 2,
-                    maxplayers: 7
-                },
-                {
-                    name: "Castles Of Burgundy",
-                    thumbnail: "https://cf.geekdo-images.com/images/pic1176894_t.jpg",
-                    minplayers: 2,
-                    maxplayers: 4
-                },
-                {
-                    name: "Cards Against Humanity",
-                    thumbnail: "https://cf.geekdo-images.com/images/pic2909692_t.jpg",
-                    minplayers: 4,
-                    maxplayers: 30
-                },
-                {
-                    name: "Castles Of Burgundy",
-                    thumbnail: "https://cf.geekdo-images.com/images/pic1176894_t.jpg",
-                    minplayers: 2,
-                    maxplayers: 4
-                },
-                {
-                    name: "Cards Against Humanity",
-                    thumbnail: "https://cf.geekdo-images.com/images/pic2909692_t.jpg",
-                    minplayers: 4,
-                    maxplayers: 30
-                },
-                {
-                    name: "7 Wonders",
-                    thumbnail: "https://cf.geekdo-images.com/images/pic860217_t.jpg",
-                    minplayers: 2,
-                    maxplayers: 7
-                },
-                {
-                    name: "Castles Of Burgundy",
-                    thumbnail: "https://cf.geekdo-images.com/images/pic1176894_t.jpg",
-                    minplayers: 2,
-                    maxplayers: 4
-                }
-            ];
-
-            newItems.forEach(createLabel);
-
-            return [
+        case COLLECTION_LOAD_START:
+            var users = [];
+            action.users.forEach(u => users.push({
+                name: u,
+                loading: true,
+                collection: []
+            }));
+            return {
                 ...state,
-                ...newItems
-            ];
+                users: users,
+                items: [],
+                loading: true
+            };
+        case A_COLLECTION_LOAD_END:
+            action.newItems.forEach(createLabel);
+            var newUsers = state.users.map(item => {
+                if (item.name === action.user) {
+                    return {
+                        ...item,
+                        loading: false,
+                        collection: action.newItems
+                    };
+                }
+                else {
+                    return item;
+                }
+            });
+            
+            return {
+                ...state,
+                users: newUsers,
+                items: newUsers.map(u => u.collection).reduce(combineArrays),
+                loading: newUsers.map(u => u.loading).includes(true)
+            };
         default:
             return state;
     }
 }
 
 export function loadCollection() {
-    return {
-        type: "COLLECTION_LOAD"
+    return (dispatch, getState) => {
+        const users = getState().users.items;
+        dispatch({
+            type: COLLECTION_LOAD_START,
+            users: users
+        });
+
+        let promises = [];
+        users.forEach(function (user) {
+            promises.push(fetch("http://www.localhost:9001/collection/" + user)
+                .then(response => response.json())
+                .then(json => dispatch({
+                    type: A_COLLECTION_LOAD_END,
+                    user: user,
+                    newItems: json.games,
+                    stillUpdating: json.updating
+                })));
+        });
+        
+        return Promise.all(promises);
     };
 }

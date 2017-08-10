@@ -16,7 +16,7 @@ export class BoardGameCollection extends React.Component {
 
     return (
       <div>
-          {collection.map((boardgame, index) => {
+          {collection.items.map((boardgame, index) => {
               return (
                 <BoardGame key={index} boardgame={boardgame} />
               );

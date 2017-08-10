@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { loadUser } from "../reducers/users"
-import { loadCollection } from "../reducers/collection";
 
 export class UsernameInput extends React.Component {
   handleTextChange(event) {
@@ -15,7 +14,6 @@ export class UsernameInput extends React.Component {
         <form className="form-inline" onSubmit={e => {
                 e.preventDefault();
                 dispatch(loadUser(this.selectedUser));
-                dispatch(loadCollection());
             }}>
             <div className="form-group">
                 <label htmlFor="selected-user">Username</label>
@@ -24,6 +22,9 @@ export class UsernameInput extends React.Component {
                   style={{"marginLeft": "10px", "marginRight": "10px"}} />
             </div>
             <button type="submit" className="btn btn-default">View Collection</button>
+            <div className="form-group">
+              { this.props.children }
+            </div>
         </form>
     );
   }

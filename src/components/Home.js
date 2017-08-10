@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import BoardGameCollection from "./BoardGameCollection";
 import UsernameInput from "./UsernameInput";
 import UserList from "./UserList";
-import { loadUser } from "../reducers/users";
-import { loadCollection } from "../reducers/collection";
+import { loadUser, getUserRoute } from "../reducers/users";
+import { push  } from 'react-router-redux';
 
 export class Home extends React.Component {
 
@@ -25,17 +25,30 @@ export class Home extends React.Component {
       selectedUsers.forEach(function(item) {
         dispatch(loadUser(item));
       });
-
-      dispatch(loadCollection());
     }
+  }
+
+  synchronizeUserRoute(nextProps) {
+    let { users, selectedUsers, dispatch } = nextProps;
+    let old_users = this.props.users;
+
+    const numberOfUsersHaveChanged = users && users.items.length !== old_users.items.length;
+    if (numberOfUsersHaveChanged) {
+      dispatch(push(getUserRoute(users)));
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.synchronizeUserRoute(nextProps);
   }
 
   render() {
     const { users } = this.props;
     return (
       <div className="page-home">
-        <UsernameInput />
-        <UserList />
+        <UsernameInput>
+          <UserList />
+        </UsernameInput>
         <BoardGameCollection />
       </div>
     );
