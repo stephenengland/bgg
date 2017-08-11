@@ -1,6 +1,8 @@
 export const COLLECTION_LOAD_START = 'COLLECTION_LOAD_START';
 export const A_COLLECTION_LOAD_END = 'COLLECTION_LOAD_END';
 
+const POLL_TIME_HALF_VARIANCE = 5000;
+
 function createLabel (item) {
     if (item.minplayers !== item.maxplayers) {
         item.label = item.minplayers + " to " + item.maxplayers + " Players";
@@ -62,6 +64,40 @@ export default function collection(state = {
     }
 }
 
+function getPollTime() {
+    return POLL_TIME_HALF_VARIANCE * Math.random() + POLL_TIME_HALF_VARIANCE;
+}
+
+function fetchCollection(user) {
+    return fetch("http://www.localhost:9001/collection/" + user)
+        .then(response => response.json());
+};
+
+function delayPromiseByPollTime(resolve) {
+    setTimeout(resolve, getPollTime());
+}
+
+function pollCollection(user, dispatch) {
+    function pollCollectionRecursive() {
+        return fetchCollection(user)
+            .then(json => {
+                dispatch({
+                    type: A_COLLECTION_LOAD_END,
+                    user: user,
+                    newItems: json.games,
+                    stillUpdating: json.updating
+                });
+
+                if (json.updating) {
+                    return new Promise(delayPromiseByPollTime)
+                        .then(pollCollectionRecursive);
+                }
+            });
+    }
+
+    return pollCollectionRecursive();
+};
+
 export function loadCollection() {
     return (dispatch, getState) => {
         const users = getState().users.items;
@@ -70,16 +106,8 @@ export function loadCollection() {
             users: users
         });
 
-        let promises = [];
-        users.forEach(function (user) {
-            promises.push(fetch("http://www.localhost:9001/collection/" + user)
-                .then(response => response.json())
-                .then(json => dispatch({
-                    type: A_COLLECTION_LOAD_END,
-                    user: user,
-                    newItems: json.games,
-                    stillUpdating: json.updating
-                })));
+        let promises = users.map(function (user) {
+            return pollCollection(user, dispatch);
         });
         
         return Promise.all(promises);
