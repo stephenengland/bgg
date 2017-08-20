@@ -11,7 +11,7 @@ export class UsernameInput extends React.Component {
     const { users, dispatch } = this.props;
 
     return (
-        <form className="form-inline" onSubmit={e => {
+        <form className="navbar-form form-inline" onSubmit={e => {
                 e.preventDefault();
                 dispatch(loadUser(this.selectedUser));
             }}>

@@ -46,9 +46,16 @@ export class Home extends React.Component {
     const { users } = this.props;
     return (
       <div className="page-home">
-        <UsernameInput>
-          <UserList />
-        </UsernameInput>
+        <nav className="navbar navbar-default">
+          <div className="container-fluid">
+            <div className="nav navbar-nav navbar-left">
+              <UsernameInput />
+            </div>
+            <div className="nav navbar-nav navbar-right">
+              <UserList />
+            </div>
+          </div>
+        </nav>
         <BoardGameCollection />
       </div>
     );

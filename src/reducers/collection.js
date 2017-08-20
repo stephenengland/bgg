@@ -4,11 +4,11 @@ export const A_COLLECTION_LOAD_END = 'COLLECTION_LOAD_END';
 const POLL_TIME_HALF_VARIANCE = 5000;
 
 function createLabel (item) {
-    if (item.minplayers !== item.maxplayers) {
-        item.label = item.minplayers + " to " + item.maxplayers + " Players";
+    if (item.minimumPlayers !== item.maximumPlayers) {
+        item.label = item.minimumPlayers + " to " + item.maximumPlayers + " Players";
     }
     else {
-        item.label = item.maxplayers + " Players";
+        item.label = item.maximumPlayers + " Players";
     }
 }
 
@@ -69,7 +69,7 @@ function getPollTime() {
 }
 
 function fetchCollection(user) {
-    return fetch("http://www.localhost:9001/collection/" + user)
+    return fetch("http://localhost:9002/collection/" + user)
         .then(response => response.json());
 };
 
